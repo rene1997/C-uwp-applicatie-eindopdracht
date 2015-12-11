@@ -26,5 +26,7 @@ namespace C_sharp_eindopdracht
         {
             this.InitializeComponent();
         }
+
+
     }
 }
