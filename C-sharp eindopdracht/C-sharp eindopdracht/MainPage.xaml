@@ -6,9 +6,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
-    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ScrollViewer x:Name="listView" Margin="0,84,0,0" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
+    <Page.Resources>
+        <Style TargetType="Button">
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+        </Style>
+    </Page.Resources>
+        <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <ScrollViewer x:Name="listView" Margin="0,84,0,0" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -19,14 +23,14 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock x:Name="from" TextWrapping="Wrap" Text="Vertrekpunt: " Grid.Row="0" Margin="5"/>
-                <ComboBox x:Name="fromTextbox"  Height="33" Width="139" Grid.Row="1" Margin="10"/>
-                <TextBlock x:Name="to" TextWrapping="Wrap" Text="Aankomstpunt: " Grid.Row="2" Margin="5"/>
-                <TextBox x:Name="toTextbox" TextWrapping="Wrap" Text="TextBox" Height="33" Width="139" Grid.Row="3" Margin="10"/>
-                <TextBlock x:Name="tijd" TextWrapping="Wrap" Text="tijd: " Grid.Row="4" Margin="5"/>
-                <TimePicker Width="320" Grid.Row="5" Margin="10"/>
-                <StackPanel Orientation="Horizontal" Grid.Row="6">
-                    <RadioButton Content="vertrek" Margin="10"/>
+                <TextBlock x:Name="from" TextWrapping="Wrap" Text="Vertrekpunt: " HorizontalAlignment="Center" Grid.Row="0" Margin="5"/>
+                <Button x:Name="fromTextbox" HorizontalAlignment="Stretch" Content="Selecteer locatie" Grid.Row="1" VerticalAlignment="Top" Click="fromTextbox_Click"/>
+                <TextBlock x:Name="to" TextWrapping="Wrap" Text="Aankomstpunt: "  HorizontalAlignment="Center" Grid.Row="2" Margin="5"/>
+                <Button x:Name="toTextbox" HorizontalAlignment="Stretch" Content="Selecteer locatie" Grid.Row="3" Click="toTextbox_Click"/>
+                <TextBlock x:Name="tijd" TextWrapping="Wrap" Text="tijd: " HorizontalAlignment="Center" Grid.Row="4" Margin="5"/>
+                <TimePicker Width="320" Grid.Row="5" HorizontalAlignment="Stretch" Margin="10"/>
+                <StackPanel Orientation="Horizontal" Grid.Row="60" HorizontalAlignment="Center">
+                    <RadioButton Content="vertrek" Margin="10" IsChecked="True"/>
                     <RadioButton Content="aankomst" Margin="10"/>
                 </StackPanel>
             </Grid>
