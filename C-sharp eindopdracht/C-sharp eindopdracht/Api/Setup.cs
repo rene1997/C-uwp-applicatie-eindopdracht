@@ -29,6 +29,10 @@ namespace C_sharp_eindopdracht.Api
                 string StringResponse = await response.Content.ReadAsStringAsync();
                 return StringResponse;
             }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }

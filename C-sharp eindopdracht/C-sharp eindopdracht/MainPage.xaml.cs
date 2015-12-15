@@ -80,5 +80,10 @@ namespace C_sharp_eindopdracht
                 
             
         }
+
+        private void AppBarMapButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MapPage));
+        }
     }
 }

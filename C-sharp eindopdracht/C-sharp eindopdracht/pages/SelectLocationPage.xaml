@@ -6,7 +6,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Icon="Home" Click="AppBarButton_Click" Label="terug"/>
+        </CommandBar>
+    </Page.BottomAppBar>
     <Grid>
         <Grid.Background>
             <ImageBrush Stretch="UniformToFill" ImageSource="ms-appx:///Assets/achtergrond.png" Opacity="0.8"/>
