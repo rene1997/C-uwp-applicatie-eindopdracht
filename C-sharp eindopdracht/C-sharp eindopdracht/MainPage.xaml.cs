@@ -26,22 +26,26 @@ namespace C_sharp_eindopdracht
     public sealed partial class MainPage : Page
     {
         protected Setup setup;
+        pages.Location location = new pages.Location(Soort.from) { fromId = "Selecteer locatie", toId = "Selecteer locatie"};
 
         public MainPage()
         {
             this.setup = new Setup();
             this.InitializeComponent();
+            
 
         }
 
         private void fromTextbox_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(SelectLocationPage));
+            location.soort = Soort.from;
+            Frame.Navigate(typeof(SelectLocationPage), location);
         }
 
         private void toTextbox_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(SelectLocationPage));
+            location.soort = Soort.to;
+            Frame.Navigate(typeof(SelectLocationPage), location);
         }
 
         /// <summary>
@@ -67,17 +71,20 @@ namespace C_sharp_eindopdracht
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             try {
-                if ((Settings)e.Parameter != null)
-                {
                     Settings s = (Settings)e.Parameter;
                     return;
-                }
             }
-            catch (Exception ex)
-            {
+            catch {}
 
+            try {
+                pages.Location l = (pages.Location)e.Parameter;
+                fromTextbox.Content = l.fromId;
+                toTextbox.Content = l.toId;
+                location = l;
+                return;
             }
-                
+            catch { }
+            
             
         }
 

@@ -19,7 +19,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <TextBox Grid.Row="0" TextChanged="TextBox_TextChanged"  HorizontalAlignment="Stretch"></TextBox>
+        <TextBox x:Name="InputField" Grid.Row="0" TextChanged="TextBox_TextChanged"  HorizontalAlignment="Stretch"></TextBox>
         <Button x:Name="backButton" Content="terug" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Row="1" Click="backButton_Click" />
     </Grid>
 </Page>

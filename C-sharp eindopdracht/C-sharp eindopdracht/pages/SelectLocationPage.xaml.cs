@@ -1,4 +1,5 @@
-﻿using System;
+﻿using C_sharp_eindopdracht.pages;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,23 +23,42 @@ namespace C_sharp_eindopdracht
     /// </summary>
     public sealed partial class SelectLocationPage : Page
     {
+        Location location;
+            
         public SelectLocationPage()
         {
             this.InitializeComponent();
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            try
+            {
+                location = (Location)e.Parameter;
+            }
+            catch (Exception) {}
+
+
+        }
+
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            
+           
         }
+
 
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(MainPage));
+            if(location.soort == Soort.from)
+                location.fromId = InputField.Text;
+            else
+                location.toId = InputField.Text;
+            Frame.Navigate(typeof(MainPage), location);
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
+            
             Frame.Navigate(typeof(MainPage));
         }
     }
