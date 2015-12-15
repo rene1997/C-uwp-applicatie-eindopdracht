@@ -10,7 +10,7 @@ namespace C_sharp_eindopdracht.Api
 {
     public class Setup
     {
-        private async Task<string> request(string requested)
+        public static async Task<string> request(string requested)
         {
             var cts = new CancellationTokenSource();
                 cts.CancelAfter(5000);
@@ -29,6 +29,12 @@ namespace C_sharp_eindopdracht.Api
                 string StringResponse = await response.Content.ReadAsStringAsync();
                 return StringResponse;
             }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
         }
+
+
     }
 }
