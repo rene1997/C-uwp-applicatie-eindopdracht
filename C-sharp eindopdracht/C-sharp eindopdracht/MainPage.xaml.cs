@@ -1,4 +1,5 @@
-﻿using System;
+﻿using C_sharp_eindopdracht.pages;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -35,6 +36,43 @@ namespace C_sharp_eindopdracht
         private void toTextbox_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(SelectLocationPage));
+        }
+
+        /// <summary>
+        /// this method closes the application when the user press the exit button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AppBarExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Exit();
+        }
+
+        /// <summary>
+        /// This method brings the user to the settting page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AppBarSettingButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Settingspage));
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            try {
+                if ((Settings)e.Parameter != null)
+                {
+                    Settings s = (Settings)e.Parameter;
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+                
+            
         }
     }
 }
