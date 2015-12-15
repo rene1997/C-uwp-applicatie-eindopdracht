@@ -1,4 +1,5 @@
-﻿using System;
+﻿using C_sharp_eindopdracht.Api;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,9 +23,13 @@ namespace C_sharp_eindopdracht
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        protected Setup setup;
+
         public MainPage()
         {
+            this.setup = new Setup();
             this.InitializeComponent();
+
         }
 
         private void fromTextbox_Click(object sender, RoutedEventArgs e)
