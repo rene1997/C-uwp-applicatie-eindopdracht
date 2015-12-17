@@ -6,14 +6,22 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    
     <Page.Resources>
         <Style TargetType="Button">
             <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="FontSize" Value="14"/>
         </Style>
     </Page.Resources>
+    
     <Page.Background>
-        <ImageBrush Stretch="UniformToFill" ImageSource="Assets/achtergrond.png" Opacity="0.8"/>
+        <ImageBrush Stretch="UniformToFill" ImageSource="ms-appx:///Assets/achtergrond.png" Opacity="0.8"/>
     </Page.Background>
+    
     <Page.BottomAppBar>
         <CommandBar>
             <CommandBar.Content>
@@ -30,14 +38,17 @@
             </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>
+    
     <RelativePanel>
         <RelativePanel.Background>
             <ImageBrush Stretch="Fill"/>
         </RelativePanel.Background>
+        
         <TextBlock x:Name="textBlock"  Text="Openbaar Vervoer" HorizontalAlignment="Stretch" RelativePanel.AlignHorizontalCenterWithPanel="True" FontSize="40" FontWeight="Bold" FontStyle="Italic" Foreground="{ThemeResource SystemControlBackgroundAccentBrush}" Margin="5" />
         <ScrollViewer x:Name="listView" Margin="0,75,0,0" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -52,10 +63,11 @@
                 <Button x:Name="toTextbox" HorizontalAlignment="Stretch" Content="Selecteer locatie" Grid.Row="3" Click="toTextbox_Click"/>
                 <TextBlock x:Name="tijd" TextWrapping="Wrap" Text="tijd: " HorizontalAlignment="Center" Grid.Row="4" Margin="5"/>
                 <TimePicker Width="320" Grid.Row="5" HorizontalAlignment="Stretch" Margin="10"/>
-                <StackPanel Orientation="Horizontal" Grid.Row="60" HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal" Grid.Row="6" HorizontalAlignment="Center">
                     <RadioButton Content="vertrek" Margin="10" IsChecked="True"/>
                     <RadioButton Content="aankomst" Margin="10"/>
                 </StackPanel>
+                <Button x:Name="toNavigatePage" HorizontalAlignment="Stretch" Content="Bereken route" Grid.Row="7" Click="toNavigatePage_Click" Margin="0,5,0,5" />
             </Grid>
 
         </ScrollViewer>

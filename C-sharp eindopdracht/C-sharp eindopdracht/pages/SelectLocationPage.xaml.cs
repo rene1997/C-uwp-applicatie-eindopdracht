@@ -1,4 +1,5 @@
-﻿using C_sharp_eindopdracht.pages;
+﻿using C_sharp_eindopdracht.Model;
+using C_sharp_eindopdracht.pages;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,10 +24,14 @@ namespace C_sharp_eindopdracht
     /// </summary>
     public sealed partial class SelectLocationPage : Page
     {
-        Location location;
+        LocationPageData locationData;
+        public SelectLocationModel model = new SelectLocationModel();
             
         public SelectLocationPage()
         {
+            model.Addlocation(new Location() { Name = "is heel mooi" });
+            model.Addlocation(new Location() { Name = "is ook heel mooi" });
+            model.Addlocation(new Location() { Name = "is even mooi" });
             this.InitializeComponent();
         }
 
@@ -34,7 +39,7 @@ namespace C_sharp_eindopdracht
         {
             try
             {
-                location = (Location)e.Parameter;
+                locationData = (LocationPageData)e.Parameter;
             }
             catch (Exception) {}
 
@@ -49,17 +54,33 @@ namespace C_sharp_eindopdracht
 
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
-            if(location.soort == Soort.from)
-                location.fromId = InputField.Text;
+            if(locationData.soort == Soort.from)
+                locationData.fromId = InputField.Text;
             else
-                location.toId = InputField.Text;
-            Frame.Navigate(typeof(MainPage), location);
+                locationData.toId = InputField.Text;
+            Frame.Navigate(typeof(MainPage), locationData);
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
             
             Frame.Navigate(typeof(MainPage));
+        }
+
+        private void locations_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Location l = (Location)e.ClickedItem;
+            if(locationData.soort == Soort.from)
+                locationData.fromId = l.Name;
+            else
+                locationData.toId = l.Name;
+            Frame.Navigate(typeof(MainPage), locationData);
+        }
+
+        private void AppBarButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            Location l = new Location() { Name = InputField.Text };
+
         }
     }
 }

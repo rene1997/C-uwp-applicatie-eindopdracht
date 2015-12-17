@@ -1,6 +1,6 @@
 
-﻿using C_sharp_eindopdracht.pages;
-﻿using C_sharp_eindopdracht.Api;
+using C_sharp_eindopdracht.pages;
+using C_sharp_eindopdracht.Api;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,6 +15,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using System.Diagnostics;
+using System.Collections.ObjectModel;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -25,12 +27,12 @@ namespace C_sharp_eindopdracht
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        protected Setup setup;
-        pages.Location location = new pages.Location(Soort.from) { fromId = "Selecteer locatie", toId = "Selecteer locatie"};
+        //protected Setup setup;
+        pages.LocationPageData location = new pages.LocationPageData(Soort.from) { fromId = "Selecteer locatie", toId = "Selecteer locatie"};
 
         public MainPage()
         {
-            this.setup = new Setup();
+           // this.setup = new Setup();
             this.InitializeComponent();
             
 
@@ -77,7 +79,7 @@ namespace C_sharp_eindopdracht
             catch {}
 
             try {
-                pages.Location l = (pages.Location)e.Parameter;
+                pages.LocationPageData l = (pages.LocationPageData)e.Parameter;
                 fromTextbox.Content = l.fromId;
                 toTextbox.Content = l.toId;
                 location = l;
@@ -91,6 +93,14 @@ namespace C_sharp_eindopdracht
         private void AppBarMapButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MapPage));
+        }
+
+        private async void toNavigatePage_Click(object sender, RoutedEventArgs e)
+        {
+            string request = $"locations/station-amsterdam-centraal/departure-times?lang=nl-NL";
+            string answer = await Api.Setup.request(request);
+            ObservableCollection<Model.Location> l =  Api.Setup.deserialiseLocation(answer);
+            Debug.WriteLine(answer);
         }
     }
 }

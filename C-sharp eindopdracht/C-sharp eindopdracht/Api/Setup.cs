@@ -1,4 +1,5 @@
-﻿using System;
+﻿using C_sharp_eindopdracht.Model;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -10,8 +11,14 @@ using Windows.Web.Http;
 
 namespace C_sharp_eindopdracht.Api
 {
-    public class Setup
+    public static class Setup
     {
+        public async static Task<String> RequestLocations(string searchQuery)
+        {
+            string url = $"locations?lang=nl-NL&q={searchQuery}";
+            return await request(url);
+        }
+
         public static async Task<string> request(string requested)
         {
             var cts = new CancellationTokenSource();
@@ -83,14 +90,5 @@ namespace C_sharp_eindopdracht.Api
 
             return collection;
         }
-    }
-
-    public class Location
-    {
-        public string Name { get; set; }
-        public string type { get; set; }
-        public double latitude { get; set;}
-        public double longitude { get; set; }
-        public string url { get; set; }
     }
 }

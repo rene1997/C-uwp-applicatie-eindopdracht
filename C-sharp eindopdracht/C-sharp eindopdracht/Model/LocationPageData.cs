@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 namespace C_sharp_eindopdracht.pages
 {
     public enum Soort { from, to}
-    public class Location
+    public class LocationPageData
     {
         
         public Soort soort { get; set; }
         public string fromId { get; set; }
         public string toId { get; set; }
 
-        public Location(Soort soort)
+        public LocationPageData(Soort soort)
         {
             this.soort = soort;
         }
