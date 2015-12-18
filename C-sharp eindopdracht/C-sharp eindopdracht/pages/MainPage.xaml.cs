@@ -97,7 +97,7 @@ namespace C_sharp_eindopdracht
 
         private async void toNavigatePage_Click(object sender, RoutedEventArgs e)
         {
-            string request = $"locations/station-amsterdam-centraal/departure-times?lang=nl-NL";
+            string request = $"locations?lang=nl-NL&q=ams";
             string answer = await Api.Setup.request(request);
             ObservableCollection<Model.Location> l =  Api.Setup.deserialiseLocation(answer);
             Debug.WriteLine(answer);
