@@ -105,5 +105,10 @@ namespace C_sharp_eindopdracht.Api
             }
             return collection;
         }
+
+        public static ObservableCollection<Journey> DesJourney(string json)
+        {
+            return null;
+        }
     }
 }
