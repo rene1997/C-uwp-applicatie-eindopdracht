@@ -42,14 +42,12 @@ namespace C_sharp_eindopdracht
             catch (Exception) {
                 locationData = new LocationPageData(Soort.from);
             }
-
-
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
             
-            Frame.Navigate(typeof(MainPage));
+            Frame.Navigate(typeof(MainPage), locationData);
         }
 
         private void locations_ItemClick(object sender, ItemClickEventArgs e)
@@ -66,7 +64,6 @@ namespace C_sharp_eindopdracht
         {
             Location l = new Location() { Name = InputField.Text };
             model.Addlocation(l);
-
         }
 
         private void InputField_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -81,6 +78,13 @@ namespace C_sharp_eindopdracht
                     locationData.toId = InputField.Text;
                 Frame.Navigate(typeof(MainPage), locationData);
             }
+        }
+       
+
+        private void InputField_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+            model.Requested(InputField.Text);
         }
     }
            

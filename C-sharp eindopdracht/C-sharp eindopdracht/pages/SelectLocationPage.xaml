@@ -34,7 +34,7 @@
         <RelativePanel.Background>
             <ImageBrush Stretch="Fill"/>
         </RelativePanel.Background>
-        <TextBox x:Name="InputField" Grid.Row="0" KeyDown="InputField_KeyDown" HorizontalAlignment="Stretch" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True"></TextBox>
+        <TextBox x:Name="InputField" Grid.Row="0" KeyDown="InputField_KeyDown" TextChanged="InputField_TextChanged" HorizontalAlignment="Stretch" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True"></TextBox>
         <ScrollViewer x:Name="listView" Margin="0,40,0,0" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
             <Grid>
                 <Grid.RowDefinitions>
@@ -48,12 +48,17 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="local:Location">
                             <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition MinWidth="20"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="{x:Bind Name, Mode =TwoWay}" Grid.Column="1"/>
-                                <CheckBox Grid.Column="0"/>
+                                <TextBlock Text="{x:Bind Name, Mode =TwoWay}" Grid.Column="1" Grid.Row="0" Margin="5" FontWeight="Bold"/>
+                                <TextBlock Text="{x:Bind type, Mode=TwoWay}" VerticalAlignment="Center" Grid.RowSpan="2" Foreground="{ThemeResource SystemControlBackgroundAccentBrush}" Margin="5"  Grid.Column="0"/>
+                                <TextBlock Text="{x:Bind id,Mode=TwoWay}" Foreground="Gray" Grid.Row="2" Grid.Column="2"  Margin="5"  />
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>

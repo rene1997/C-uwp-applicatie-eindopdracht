@@ -45,7 +45,7 @@ namespace C_sharp_eindopdracht.Api
             }
         }
 
-        public static ObservableCollection<Location> deserialiseLocation(string json)
+        public async static Task<ObservableCollection<Location>> deserialiseLocation(string json)
         {
             ObservableCollection<Location> collection = new ObservableCollection<Location>();
 
@@ -64,8 +64,10 @@ namespace C_sharp_eindopdracht.Api
                 JsonObject itemObj = location.GetObject();
                 IJsonValue nameValue;
                 IJsonValue typeValue;
+                IJsonValue idValue;
                 itemObj.TryGetValue("name", out nameValue);
                 itemObj.TryGetValue("type", out typeValue);
+                itemObj.TryGetValue("id", out idValue);
 
                 IJsonValue latLongValue;
                 itemObj.TryGetValue("latLong", out latLongValue);
@@ -76,17 +78,28 @@ namespace C_sharp_eindopdracht.Api
                 latLongObj.TryGetValue("long", out longVal);
 
                 IJsonValue urlValue;
-                itemObj.TryGetValue("urls", out urlValue);
-                JsonObject urlObject = urlValue.GetObject();
-                IJsonValue NLUrl;
-                urlObject.TryGetValue("nl-NL", out NLUrl);
+                IJsonValue NLUrl = null;
+                try {
+                    itemObj.TryGetValue("urls", out urlValue);
+                    JsonObject urlObject = urlValue.GetObject();
+                    urlObject.TryGetValue("nl-NL", out NLUrl);
+                }
+                catch { }
 
                 Location l = new Location();
                 l.Name = nameValue.GetString();
+                l.id = idValue.GetString();
                 l.type = typeValue.GetString();
                 l.latitude = latVal.GetNumber();
                 l.longitude = longVal.GetNumber();
-                l.url = NLUrl.GetString();
+               
+
+                try
+                {
+                    l.url = NLUrl.GetString();
+                }
+                catch { }
+                
 
                 collection.Add(l);
             }

@@ -13,6 +13,7 @@ namespace C_sharp_eindopdracht.Model
         public double latitude { get; set; }
         public double longitude { get; set; }
         public string url { get; set; }
+        public string id { get; set; }
         
     }
 }

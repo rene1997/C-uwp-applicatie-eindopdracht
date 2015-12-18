@@ -99,7 +99,7 @@ namespace C_sharp_eindopdracht
         {
             string request = $"locations?lang=nl-NL&q=ams";
             string answer = await Api.Setup.request(request);
-            ObservableCollection<Model.Location> l =  Api.Setup.deserialiseLocation(answer);
+            ObservableCollection<Model.Location> l = await  Api.Setup.deserialiseLocation(answer);
             Debug.WriteLine(answer);
         }
     }
