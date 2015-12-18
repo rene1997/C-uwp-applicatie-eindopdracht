@@ -72,9 +72,14 @@ namespace C_sharp_eindopdracht
         }
        
 
-        private void InputField_TextChanged(object sender, TextChangedEventArgs e)
+        private async void InputField_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            if(InputField.Text.Length % 3 == 0)
+            {
+                model._privateLocations.Clear();
+                model.Addlocation(new Location() { Name = "laden..." });
+                await model.NewRequest(InputField.Text);
+            }
            
         }
 

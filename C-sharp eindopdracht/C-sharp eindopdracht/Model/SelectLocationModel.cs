@@ -9,7 +9,7 @@ namespace C_sharp_eindopdracht.Model
 {
     public class SelectLocationModel
     {
-        private ObservableCollection<Location> _privateLocations = new ObservableCollection<Location>();
+        public ObservableCollection<Location> _privateLocations = new ObservableCollection<Location>();
         public ObservableCollection<Location> publicLocations { get { return this._privateLocations; } }
 
         public async Task<bool> NewRequest(string q)
