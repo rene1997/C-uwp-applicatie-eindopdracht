@@ -32,12 +32,9 @@ namespace C_sharp_eindopdracht.Model
             _privateLocations.Add(l);
         }
 
-        public async void Requested(string q)
+        public async void Start()
         {
-            if (q.Length % 3 == 0)
-            {
-                await NewRequest(q);
-            }
+            Addlocation(new Location() { Name = "", type = "info", id = "" });
         }
 
         

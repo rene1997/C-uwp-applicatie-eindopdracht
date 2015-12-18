@@ -11,21 +11,25 @@ namespace C_sharp_eindopdracht.pages
     {
         
         public Soort soort { get; set; }
+        public string fromName { get; set; }
         public string fromId { get; set; }
-        public string toId { get; set; }
+        public string toName { get; set; }
+        public string toId{ get; set; }
 
         public LocationPageData(Soort soort)
         {
             this.soort = soort;
         }
 
-        public void SetFromID(string id)
+        public void SetFromProperties(string name, string id)
         {
+            fromName = name;
             fromId = id;
         }
 
-        public void SetToID(string id)
+        public void SetToProperties(string name, string id)
         {
+            toName = name;
             toId = id;
         }
     }

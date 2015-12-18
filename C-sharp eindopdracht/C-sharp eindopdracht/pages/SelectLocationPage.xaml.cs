@@ -2,6 +2,7 @@
 using C_sharp_eindopdracht.pages;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -30,7 +31,7 @@ namespace C_sharp_eindopdracht
         public SelectLocationPage()
         {
             this.InitializeComponent();
-            model.Addlocation(new Location() { Name = "huidige locatie", type = "positie" });
+            model.Start();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -54,9 +55,9 @@ namespace C_sharp_eindopdracht
         {
             Location l = (Location)e.ClickedItem;
             if(locationData.soort == Soort.from)
-                locationData.fromId = l.Name;
+                locationData.SetFromProperties(l.Name, l.id);
             else
-                locationData.toId = l.Name;
+                locationData.SetToProperties(l.Name,l.id);
             Frame.Navigate(typeof(MainPage), locationData);
         }
 
@@ -68,23 +69,19 @@ namespace C_sharp_eindopdracht
 
         private void InputField_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if(e.Key.ToString() == "Enter")
-            {
-                Location l = new Location() { Name = InputField.Text };
-                model.Addlocation(l);
-                if (locationData.soort == Soort.from)
-                    locationData.fromId = InputField.Text;
-                else
-                    locationData.toId = InputField.Text;
-                Frame.Navigate(typeof(MainPage), locationData);
-            }
         }
        
 
         private void InputField_TextChanged(object sender, TextChangedEventArgs e)
         {
 
-            model.Requested(InputField.Text);
+           
+        }
+
+        private async void AppBarButton_Click_2(object sender, RoutedEventArgs e)
+        {
+            model.Addlocation(new Location() { Name = "laden..." });
+            await model.NewRequest(InputField.Text);
         }
     }
            
