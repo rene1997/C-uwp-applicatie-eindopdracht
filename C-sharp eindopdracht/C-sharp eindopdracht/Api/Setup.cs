@@ -49,45 +49,47 @@ namespace C_sharp_eindopdracht.Api
         {
             ObservableCollection<Location> collection = new ObservableCollection<Location>();
 
-            JsonObject locations;
-            bool parseOK = JsonObject.TryParse(json, out locations);
+            JsonObject jsonObject;
+            bool parseOK = JsonObject.TryParse(json, out jsonObject);
             if (!parseOK)
             {
                 return collection;
             }
 
-            foreach(string s in locations.Keys)
+            IJsonValue value = jsonObject.Values.FirstOrDefault();
+            JsonArray locations = value.GetArray();
+
+            foreach (IJsonValue location in locations)
             {
-                JsonObject locationToAdd, latlongToAdd, urlsToAdd;
-                try
-                {
-                    locationToAdd = locations.GetNamedObject("place", null);
-                    latlongToAdd = locations.GetNamedObject("latlong", null);
-                    urlsToAdd = locations.GetNamedObject("urls", null);
+                JsonObject itemObj = location.GetObject();
+                IJsonValue nameValue;
+                IJsonValue typeValue;
+                itemObj.TryGetValue("name", out nameValue);
+                itemObj.TryGetValue("type", out typeValue);
 
-                    string name, type, latitude, longitude, url;
-                    name = locationToAdd.GetNamedString("name");
-                    type = locations.GetNamedString("type");
-                    latitude = latlongToAdd.GetNamedString("lat");
-                    longitude = latlongToAdd.GetNamedString("long");
-                    url = urlsToAdd.GetNamedString("nl-NL");
+                IJsonValue latLongValue;
+                itemObj.TryGetValue("latLong", out latLongValue);
+                JsonObject latLongObj = latLongValue.GetObject();
+                IJsonValue latVal;
+                IJsonValue longVal;
+                latLongObj.TryGetValue("lat", out latVal);
+                latLongObj.TryGetValue("long", out longVal);
 
-                    Location l = new Location();
-                    l.Name = name;
-                    l.type = type;
-                    l.latitude = Double.Parse(latitude);
-                    l.longitude = Double.Parse(longitude);
-                    l.url = url;
+                IJsonValue urlValue;
+                itemObj.TryGetValue("urls", out urlValue);
+                JsonObject urlObject = urlValue.GetObject();
+                IJsonValue NLUrl;
+                urlObject.TryGetValue("nl-NL", out NLUrl);
 
-                    collection.Add(l);
+                Location l = new Location();
+                l.Name = nameValue.GetString();
+                l.type = typeValue.GetString();
+                l.latitude = latVal.GetNumber();
+                l.longitude = longVal.GetNumber();
+                l.url = NLUrl.GetString();
 
-                }
-                catch
-                {
-                    return collection;
-                }
+                collection.Add(l);
             }
-
             return collection;
         }
     }
