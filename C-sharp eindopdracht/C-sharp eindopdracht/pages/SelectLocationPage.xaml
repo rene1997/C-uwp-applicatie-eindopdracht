@@ -34,7 +34,7 @@
         <RelativePanel.Background>
             <ImageBrush Stretch="Fill"/>
         </RelativePanel.Background>
-        <TextBox x:Name="InputField" Grid.Row="0" TextChanged="TextBox_TextChanged"  HorizontalAlignment="Stretch" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True"></TextBox>
+        <TextBox x:Name="InputField" Grid.Row="0" KeyDown="InputField_KeyDown" HorizontalAlignment="Stretch" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True"></TextBox>
         <ScrollViewer x:Name="listView" Margin="0,40,0,0" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
             <Grid>
                 <Grid.RowDefinitions>
@@ -49,16 +49,15 @@
                         <DataTemplate x:DataType="local:Location">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition MinWidth="20"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="{x:Bind Name, Mode =TwoWay}" Grid.Column="1"/>
-
+                                <CheckBox Grid.Column="0"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <Button x:Name="backButton" Content="terug" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Row="1" Click="backButton_Click" />
             </Grid>
         </ScrollViewer>
     </RelativePanel>

@@ -29,10 +29,8 @@ namespace C_sharp_eindopdracht
             
         public SelectLocationPage()
         {
-            model.Addlocation(new Location() { Name = "is heel mooi" });
-            model.Addlocation(new Location() { Name = "is ook heel mooi" });
-            model.Addlocation(new Location() { Name = "is even mooi" });
             this.InitializeComponent();
+            model.Addlocation(new Location() { Name = "huidige locatie", type = "positie" });
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -41,24 +39,11 @@ namespace C_sharp_eindopdracht
             {
                 locationData = (LocationPageData)e.Parameter;
             }
-            catch (Exception) {}
+            catch (Exception) {
+                locationData = new LocationPageData(Soort.from);
+            }
 
 
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-           
-        }
-
-
-        private void backButton_Click(object sender, RoutedEventArgs e)
-        {
-            if(locationData.soort == Soort.from)
-                locationData.fromId = InputField.Text;
-            else
-                locationData.toId = InputField.Text;
-            Frame.Navigate(typeof(MainPage), locationData);
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
@@ -80,7 +65,23 @@ namespace C_sharp_eindopdracht
         private void AppBarButton_Click_1(object sender, RoutedEventArgs e)
         {
             Location l = new Location() { Name = InputField.Text };
+            model.Addlocation(l);
 
         }
+
+        private void InputField_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if(e.Key.ToString() == "Enter")
+            {
+                Location l = new Location() { Name = InputField.Text };
+                model.Addlocation(l);
+                if (locationData.soort == Soort.from)
+                    locationData.fromId = InputField.Text;
+                else
+                    locationData.toId = InputField.Text;
+                Frame.Navigate(typeof(MainPage), locationData);
+            }
+        }
     }
+           
 }
