@@ -55,9 +55,9 @@ namespace C_sharp_eindopdracht
         {
             Location l = (Location)e.ClickedItem;
             if(locationData.soort == Soort.from)
-                locationData.SetFromProperties(l.Name, l.id);
+                locationData.SetFromProperties(l);
             else
-                locationData.SetToProperties(l.Name,l.id);
+                locationData.SetToProperties(l);
             Frame.Navigate(typeof(MainPage), locationData);
         }
 

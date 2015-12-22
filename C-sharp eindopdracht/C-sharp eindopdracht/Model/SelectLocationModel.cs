@@ -34,7 +34,7 @@ namespace C_sharp_eindopdracht.Model
 
         public async void Start()
         {
-            Addlocation(new Location() { Name = "", type = "info", id = "" });
+            Addlocation(new Location() { Name = "typ voor resultaten", type = "info", id = "" });
         }
 
         

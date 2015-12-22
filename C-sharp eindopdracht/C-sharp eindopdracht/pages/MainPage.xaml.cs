@@ -28,7 +28,7 @@ namespace C_sharp_eindopdracht
     public sealed partial class MainPage : Page
     {
         //protected Setup setup;
-        pages.LocationPageData location = new pages.LocationPageData(Soort.from) { fromId = "Selecteer locatie", toId = "Selecteer locatie"};
+        public LocationPageData location = new LocationPageData(Soort.from) { fromLocation = new Model.Location() { Name = "Selecteer locatie"}, toLocation = new Model.Location() { Name = "Selecteer locatie"} };
 
         public MainPage()
         {
@@ -80,8 +80,8 @@ namespace C_sharp_eindopdracht
 
             try {
                 pages.LocationPageData l = (pages.LocationPageData)e.Parameter;
-                fromTextbox.Content = l.fromId;
-                toTextbox.Content = l.toId;
+                fromTextbox.Content = l.fromLocation.Name;
+                toTextbox.Content = l.toLocation.Name;
                 location = l;
                 return;
             }
@@ -95,12 +95,15 @@ namespace C_sharp_eindopdracht
             Frame.Navigate(typeof(MapPage));
         }
 
-        private async void toNavigatePage_Click(object sender, RoutedEventArgs e)
+        private void toNavigatePage_Click(object sender, RoutedEventArgs e)
         {
-            string request = $"locations?lang=nl-NL&q=ams";
+            Frame.Navigate(typeof(RouteResultPage), location);
+
+           //test shit:
+           /* string request = $"locations?lang=nl-NL&q=ams";
             string answer = await Api.Setup.request(request);
             ObservableCollection<Model.Location> l = await  Api.Setup.deserialiseLocation(answer);
-            Debug.WriteLine(answer);
+            Debug.WriteLine(answer);*/
         }
     }
 }

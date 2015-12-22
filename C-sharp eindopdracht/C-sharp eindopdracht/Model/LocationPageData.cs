@@ -1,4 +1,5 @@
-﻿using System;
+﻿using C_sharp_eindopdracht.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,26 +12,22 @@ namespace C_sharp_eindopdracht.pages
     {
         
         public Soort soort { get; set; }
-        public string fromName { get; set; }
-        public string fromId { get; set; }
-        public string toName { get; set; }
-        public string toId{ get; set; }
+        public Location fromLocation{ get; set; }
+        public Location toLocation { get; set; }
 
         public LocationPageData(Soort soort)
         {
             this.soort = soort;
         }
 
-        public void SetFromProperties(string name, string id)
+        public void SetFromProperties(Location location)
         {
-            fromName = name;
-            fromId = id;
+            fromLocation = location;
         }
 
-        public void SetToProperties(string name, string id)
+        public void SetToProperties(Location location)
         {
-            toName = name;
-            toId = id;
+            toLocation = location;
         }
     }
 }
