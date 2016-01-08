@@ -134,12 +134,12 @@ namespace C_sharp_eindopdracht.Api
                 //try get arrival and departure time from highest level in json
                 try {
                     itemObj.TryGetValue("departure", out departureValue);
-                    journey.StartTime = departureValue.GetString();
+                    journey.SetStartTime(departureValue.GetString());
                 }catch { }
                 try
                 {
                     itemObj.TryGetValue("arrival", out arrivalValue);
-                    journey.EndTime = arrivalValue.GetString();
+                    journey.SetEndTime(arrivalValue.GetString());
                 }catch { }
 
                 //try to get amount of changes
@@ -154,65 +154,68 @@ namespace C_sharp_eindopdracht.Api
                 //get value legs:
                 IJsonValue legsValue ;
                 itemObj.TryGetValue("legs", out legsValue);
-                JsonArray legsObjects = legsValue.GetArray();               
+                JsonArray legsObjects = legsValue.GetArray();
+
 
                 //for each leg in the route
-                foreach (IJsonValue leg in legsObjects)
-                {
-                    Leg legObject = new Leg();
-                    JsonObject legItemObj = leg.GetObject();
-                    //get destination of the leg ("Maastricht")
-                    IJsonValue legDestinationValue;
-                    try
+                try {
+                    foreach (IJsonValue leg in legsObjects)
                     {
-                        legItemObj.TryGetValue("destination", out legDestinationValue);
-                        legObject.destination = legItemObj.GetString();
-                    }catch { }
+                        Leg legObject = new Leg();
+                        JsonObject legItemObj = leg.GetObject();
+                        //get destination of the leg ("Maastricht")
+                        IJsonValue legDestinationValue;
+                        try
+                        {
+                            legItemObj.TryGetValue("destination", out legDestinationValue);
+                            legObject.destination = legItemObj.GetString();
+                        } catch { }
 
-                    //get name and type of leg
-                    IJsonValue typemodeValue;
-                    legItemObj.TryGetValue("mode", out typemodeValue);
-                    JsonObject typemodeObject = typemodeValue.GetObject();
-                    //try get type ("train")
-                    IJsonValue modetype;
-                    //try get name ("intercity")
-                    IJsonValue modename;
-                    try
-                    {
-                        typemodeObject.TryGetValue("name", out modename);
-                        typemodeObject.TryGetValue("type", out modetype);
+                        //get name and type of leg
+                        IJsonValue typemodeValue;
+                        legItemObj.TryGetValue("mode", out typemodeValue);
+                        JsonObject typemodeObject = typemodeValue.GetObject();
+                        //try get type ("train")
+                        IJsonValue modetype;
+                        //try get name ("intercity")
+                        IJsonValue modename;
+                        try
+                        {
+                            typemodeObject.TryGetValue("name", out modename);
+                            typemodeObject.TryGetValue("type", out modetype);
 
-                        legObject.name = modename.GetString();
-                        legObject.type = modetype.GetString();
-                    }catch { }
+                            legObject.name = modename.GetString();
+                            legObject.type = modetype.GetString();
+                        } catch { }
 
-                    //get operator of leg
-                    IJsonValue operatorlegvalue;
-                    try
-                    {
-                        legItemObj.TryGetValue("operator", out typemodeValue);
-                        JsonObject operatorlegObject = typemodeValue.GetObject();
-                        //try get operator name ("NS")
-                        IJsonValue legOperatorName;
-                        typemodeObject.TryGetValue("name", out legOperatorName);
-                        legObject.operatorName = legOperatorName.GetString();
-                    }catch { }
+                        //get operator of leg
+                        IJsonValue operatorlegvalue;
+                        try
+                        {
+                            legItemObj.TryGetValue("operator", out typemodeValue);
+                            JsonObject operatorlegObject = typemodeValue.GetObject();
+                            //try get operator name ("NS")
+                            IJsonValue legOperatorName;
+                            typemodeObject.TryGetValue("name", out legOperatorName);
+                            legObject.operatorName = legOperatorName.GetString();
+                        } catch { }
 
-                    //try to get stops in the leg 
-                    //get value stops:
-                    IJsonValue stopsValue;
-                    itemObj.TryGetValue("stops", out stopsValue);
+                        //try to get stops in the leg 
+                        //get value stops:
+                        IJsonValue stopsValue;
+                        itemObj.TryGetValue("stops", out stopsValue);
 
-                    //get amount of stops
-                    JsonArray stopsObjects = legsValue.GetArray();
-                    try
-                    {
-                        int amountOfStops = stopsObjects.Count + 1;
-                        legObject.stops = amountOfStops;
-                    }catch { }
-                    journey.AddLeg(legObject);
-                }
-                journeyCollection.Add(journey);
+                        //get amount of stops
+                        JsonArray stopsObjects = legsValue.GetArray();
+                        try
+                        {
+                            int amountOfStops = stopsObjects.Count + 1;
+                            legObject.stops = amountOfStops;
+                        } catch { }
+                        journey.AddLeg(legObject);
+                    }
+                    journeyCollection.Add(journey);
+                }catch { }
             }
             return journeyCollection;
         }

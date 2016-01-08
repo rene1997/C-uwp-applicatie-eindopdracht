@@ -100,8 +100,12 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Journey.cs" />
+    <Compile Include="Model\JourneyModel.cs" />
     <Compile Include="Model\Leg.cs" />
     <Compile Include="Model\RouteResultModel.cs" />
+    <Compile Include="pages\JourneyPage.xaml.cs">
+      <DependentUpon>JourneyPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -145,6 +149,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="pages\JourneyPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="pages\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -154,8 +162,8 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="pages\RouteResultPage.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="pages\SelectLocationPage.xaml">
       <SubType>Designer</SubType>

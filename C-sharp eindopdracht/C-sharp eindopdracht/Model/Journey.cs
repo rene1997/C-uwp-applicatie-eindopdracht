@@ -20,6 +20,16 @@ namespace C_sharp_eindopdracht.Model
             legs = new List<Leg>();
         }
 
+        public void SetStartTime(string dateTime)
+        {
+            StartTime = dateTime.Split('T').Last();
+        }
+
+        public void SetEndTime(string dateTime)
+        {
+            EndTime = dateTime.Split('T').Last();
+        }
+
         public void AddLeg(Leg leg)
         {
             legs.Add(leg);

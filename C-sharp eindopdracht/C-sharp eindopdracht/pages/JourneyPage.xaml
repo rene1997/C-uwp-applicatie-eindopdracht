@@ -1,14 +1,14 @@
 ﻿<Page
-    x:Class="C_sharp_eindopdracht.pages.SelectLocationPage"
+    x:Class="C_sharp_eindopdracht.pages.JourneyPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:C_sharp_eindopdracht.Model"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    
+
     <Page.Resources>
-        <Style TargetType="Button">
+        <Style TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Comic Sans MS"/>
             <Setter Property="FontSize" Value="14"/>
         </Style>
@@ -23,31 +23,51 @@
             <CommandBar.Content>
                 <Grid/>
             </CommandBar.Content>
-            <AppBarButton Icon="Home" Click="AppBarButton_Click" Label="terug"/>
-            <AppBarButton Icon="Send" Click="AppBarButton_Click_2" Label="zoek"/>
+            <AppBarButton Icon="Home" Label="terug"/>
+            <AppBarButton Icon="Back" Click="AppBarButton_Click" Label="zoek"/>
             <CommandBar.SecondaryCommands>
-                <AppBarButton Icon="PostUpdate" Label="for testing " Click="AppBarButton_Click_1"></AppBarButton>
+                <AppBarButton Icon="PostUpdate" Label="for testing "></AppBarButton>
             </CommandBar.SecondaryCommands>
         </CommandBar>
-        
+
     </Page.BottomAppBar>
     <RelativePanel>
         <RelativePanel.Background>
             <ImageBrush Stretch="Fill"/>
         </RelativePanel.Background>
-
-        <TextBox x:Name="InputField" Grid.Row="0" TextChanged="InputField_TextChanged" HorizontalAlignment="Stretch" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" Margin="0,-2,0,2"></TextBox>
-
-        <ScrollViewer x:Name="listView" Margin="0,40,0,0" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
+        
+        <ScrollViewer x:Name="listView" Margin="0,0,0,0" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <ListView Name="locations"
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <!--Title and starting info-->
+                <TextBlock Name="textBlock"  Text="Rit informatie" HorizontalAlignment="Center" Grid.ColumnSpan="2" FontSize="40" FontWeight="Bold" FontStyle="Italic" Foreground="{ThemeResource SystemControlBackgroundAccentBrush}" Margin="5" />
+                <!--startime-->
+                <TextBlock Text="Vertrektijd:" Grid.Row="1"/>
+                <TextBlock Text="{x:Bind journey.StartTime}" Grid.Row="1" Grid.Column="1"/>
+                <!--endtime-->
+                <TextBlock Text="Aankomsttijd:" Grid.Row="2"/>
+                <TextBlock Text="{x:Bind journey.EndTime}" Grid.Row="2" Grid.Column="1"/>
+
+                <!--chages-->
+                <TextBlock Text="Overstappen::" Grid.Row="3"/>
+                <TextBlock Text="{x:Bind journey.NumberOfChanges}" Grid.Row="3" Grid.Column="1"/>
+                <!--Info of legs:-->
+                <!--<ListView Name="Legs"
                           ItemsSource="{x:Bind model.publicLocations}"
                           ItemClick="locations_ItemClick"
-                          IsItemClickEnabled="True">
+                          IsItemClickEnabled="True"
+                          Grid.Row="4">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="local:Location">
                             <Grid HorizontalAlignment="Stretch">
@@ -65,7 +85,7 @@
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
-                </ListView>
+                </ListView>-->
             </Grid>
         </ScrollViewer>
     </RelativePanel>

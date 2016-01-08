@@ -21,45 +21,39 @@ namespace C_sharp_eindopdracht.pages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class RouteResultPage : Page
+    public sealed partial class JourneyPage : Page
     {
-        public RouteResultModel model;
+        private JourneyModel model;
+        private Journey journey;
 
-        public RouteResultPage()
+        public JourneyPage()
         {
             this.InitializeComponent();
-            model = new RouteResultModel(this, null);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             try
             {
-                model.LocationsData = (LocationPageData)e.Parameter;
+                model = new JourneyModel((Journey)e.Parameter);
+                journey = (Journey)e.Parameter;
+                LoadInfoOnPage();
+                
             }
             catch (Exception)
             {
-                model.LocationsData = new LocationPageData(Soort.from);
             }
 
-            model.Start();
-
         }
 
-        private void GoHomeButton(object sender, RoutedEventArgs e)
+        private void LoadInfoOnPage()
         {
-
+           
         }
 
-        private void ShowHelpButton(object sender, RoutedEventArgs e)
+        private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void journeys_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            Journey l = (Journey)e.ClickedItem;
-            Frame.Navigate(typeof(JourneyPage), l);
+            Frame.GoBack();
         }
     }
 }
