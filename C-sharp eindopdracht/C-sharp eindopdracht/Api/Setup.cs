@@ -13,11 +13,10 @@ namespace C_sharp_eindopdracht.Api
 {
     public static class Setup
     {
-        public async static Task<string> RequestJourneys(string fromId, string toId)
+        public async static Task<string> RequestJourneys(string fromId, string toId, string date, string time)
         {
-            DateTime today = DateTime.Today;
             //string url = $"journeys? before = 1 & sequence = 1 & byFerry = true & bySubway = true & byBus = true & byTram = true & byTrain = true & lang = nl - NL & from = {fromId} & dateTime = {today.Year} - {today.Month} - {today.Day}T{today.Hour}{DateTime.Today.Minute} & searchType = departure & interchangeTime = standard & after = 5 & to = {toId}";
-            string url = $"journeys?before=1&sequence=1&byFerry=true&bySubway=true&byBus=true&byTram=true&byTrain=true&lang=nl-NL&from={fromId}&dateTime=2015-12-22T2050&searchType=departure&interchangeTime=standard&after=5&to={toId}";
+            string url = $"journeys?before=1&sequence=1&byFerry=true&bySubway=true&byBus=true&byTram=true&byTrain=true&lang=nl-NL&from={fromId}&dateTime={date}{time}&searchType=departure&interchangeTime=standard&after=5&to={toId}";
             return await request(url);
         }
 
@@ -116,7 +115,106 @@ namespace C_sharp_eindopdracht.Api
 
         public static ObservableCollection<Journey> DesJourney(string json)
         {
-            return null;
+            ObservableCollection<Journey> journeyCollection = new ObservableCollection<Journey>();
+            JsonObject jsonObject;
+            bool parseOk = JsonObject.TryParse(json, out jsonObject);
+            if (!parseOk)
+                return null;
+            //get jsonvalues
+            IJsonValue value = jsonObject.Values.FirstOrDefault();
+            //array of journeys in json format
+            JsonArray journeys = value.GetArray();
+            //for each journey:
+            foreach (IJsonValue journeyJson in journeys)
+            {
+                Journey journey = new Journey();
+                JsonObject itemObj = journeyJson.GetObject();
+                IJsonValue departureValue;
+                IJsonValue arrivalValue;
+                //try get arrival and departure time from highest level in json
+                try {
+                    itemObj.TryGetValue("departure", out departureValue);
+                    journey.StartTime = departureValue.GetString();
+                }catch { }
+                try
+                {
+                    itemObj.TryGetValue("arrival", out arrivalValue);
+                    journey.EndTime = arrivalValue.GetString();
+                }catch { }
+
+                //try to get amount of changes
+                IJsonValue changesValues;
+                try
+                {
+                    itemObj.TryGetValue("numberOfChanges", out changesValues);
+                    journey.NumberOfChanges = (int)changesValues.GetNumber();
+                }catch { }
+
+                //try to get legs from the route
+                //get value legs:
+                IJsonValue legsValue ;
+                itemObj.TryGetValue("legs", out legsValue);
+                JsonArray legsObjects = legsValue.GetArray();               
+
+                //for each leg in the route
+                foreach (IJsonValue leg in legsObjects)
+                {
+                    Leg legObject = new Leg();
+                    JsonObject legItemObj = leg.GetObject();
+                    //get destination of the leg ("Maastricht")
+                    IJsonValue legDestinationValue;
+                    try
+                    {
+                        legItemObj.TryGetValue("destination", out legDestinationValue);
+                        legObject.destination = legItemObj.GetString();
+                    }catch { }
+
+                    //get name and type of leg
+                    IJsonValue typemodeValue;
+                    legItemObj.TryGetValue("mode", out typemodeValue);
+                    JsonObject typemodeObject = typemodeValue.GetObject();
+                    //try get type ("train")
+                    IJsonValue modetype;
+                    //try get name ("intercity")
+                    IJsonValue modename;
+                    try
+                    {
+                        typemodeObject.TryGetValue("name", out modename);
+                        typemodeObject.TryGetValue("type", out modetype);
+
+                        legObject.name = modename.GetString();
+                        legObject.type = modetype.GetString();
+                    }catch { }
+
+                    //get operator of leg
+                    IJsonValue operatorlegvalue;
+                    try
+                    {
+                        legItemObj.TryGetValue("operator", out typemodeValue);
+                        JsonObject operatorlegObject = typemodeValue.GetObject();
+                        //try get operator name ("NS")
+                        IJsonValue legOperatorName;
+                        typemodeObject.TryGetValue("name", out legOperatorName);
+                        legObject.operatorName = legOperatorName.GetString();
+                    }catch { }
+
+                    //try to get stops in the leg 
+                    //get value stops:
+                    IJsonValue stopsValue;
+                    itemObj.TryGetValue("stops", out stopsValue);
+
+                    //get amount of stops
+                    JsonArray stopsObjects = legsValue.GetArray();
+                    try
+                    {
+                        int amountOfStops = stopsObjects.Count + 1;
+                        legObject.stops = amountOfStops;
+                    }catch { }
+                    journey.AddLeg(legObject);
+                }
+                journeyCollection.Add(journey);
+            }
+            return journeyCollection;
         }
     }
 }

@@ -100,6 +100,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Journey.cs" />
+    <Compile Include="Model\Leg.cs" />
     <Compile Include="Model\RouteResultModel.cs" />
     <Compile Include="pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

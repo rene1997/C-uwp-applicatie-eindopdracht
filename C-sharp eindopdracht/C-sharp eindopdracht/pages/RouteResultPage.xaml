@@ -47,7 +47,7 @@
                 </Grid.RowDefinitions>
                 <ListView Name="journeys"
                           ItemsSource="{x:Bind model.publicJourneys}"
-                          ItemClick="locations_ItemClick"
+                          ItemClick="journeys_ItemClick"
                           IsItemClickEnabled="True">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="local:Journey">

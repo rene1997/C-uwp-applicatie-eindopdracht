@@ -55,5 +55,10 @@ namespace C_sharp_eindopdracht.pages
         {
 
         }
+
+        private void journeys_ItemClick(object sender, ItemClickEventArgs e)
+        {
+
+        }
     }
 }

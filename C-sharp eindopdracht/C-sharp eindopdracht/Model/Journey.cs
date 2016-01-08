@@ -11,7 +11,19 @@ namespace C_sharp_eindopdracht.Model
     {
         public string StartTime { get; set; }
         public string EndTime { get; set; }
+        public int NumberOfChanges { get; set; }
         public ObservableCollection<ITussenStop> stops = new ObservableCollection<ITussenStop>();
+        public List<Leg> legs { get; set; }
+
+        public Journey()
+        {
+            legs = new List<Leg>();
+        }
+
+        public void AddLeg(Leg leg)
+        {
+            legs.Add(leg);
+        }
     }
 
     public abstract class ITussenStop
@@ -19,6 +31,7 @@ namespace C_sharp_eindopdracht.Model
         public string TravelName { get; set; }
         public string VanID { get; set; }
         public string NaarID { get; set; }
+
     }
 
     public class BusTussenstop : ITussenStop

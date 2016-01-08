@@ -41,12 +41,20 @@ namespace C_sharp_eindopdracht.Model
             _privateJourneys.Clear();
             AddJourney(new Journey() { StartTime = "aan het laden..." });
             string s = await GetJourneys(LocationsData.fromLocation.id, LocationsData.toLocation.id);
-            
+            _privateJourneys.Clear();
+            ObservableCollection<Journey> journeys = Api.Setup.DesJourney(s);
+            foreach(Journey j in journeys)
+            {
+                AddJourney(j);
+            }
         }
 
         public async Task<string> GetJourneys(string fromId, string toId)
         {
-            string answer =  await Api.Setup.RequestJourneys(fromId, toId);
+            DateTime today = DateTime.Today;
+            string date = $"{today.Year}-0{today.Month}-0{today.Day}";
+            string time = "T1406";
+            string answer =  await Api.Setup.RequestJourneys(fromId, toId, date,time);
             Debug.WriteLine(answer);
             return answer;
         }
