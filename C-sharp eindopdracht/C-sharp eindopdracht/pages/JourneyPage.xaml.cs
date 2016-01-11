@@ -55,5 +55,10 @@ namespace C_sharp_eindopdracht.pages
         {
             Frame.GoBack();
         }
+
+        private void Legs_ItemClick(object sender, ItemClickEventArgs e)
+        {
+
+        }
     }
 }

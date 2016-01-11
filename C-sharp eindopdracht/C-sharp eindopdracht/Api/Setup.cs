@@ -168,7 +168,7 @@ namespace C_sharp_eindopdracht.Api
                         try
                         {
                             legItemObj.TryGetValue("destination", out legDestinationValue);
-                            legObject.destination = legItemObj.GetString();
+                            legObject.destination = legDestinationValue.GetString();
                         } catch { }
 
                         //get name and type of leg
@@ -203,14 +203,51 @@ namespace C_sharp_eindopdracht.Api
                         //try to get stops in the leg 
                         //get value stops:
                         IJsonValue stopsValue;
-                        itemObj.TryGetValue("stops", out stopsValue);
+                        legItemObj.TryGetValue("stops", out stopsValue);
 
                         //get amount of stops
-                        JsonArray stopsObjects = legsValue.GetArray();
+                        JsonArray stopsObjects = stopsValue.GetArray();
                         try
                         {
                             int amountOfStops = stopsObjects.Count + 1;
                             legObject.stops = amountOfStops;
+
+                            if(amountOfStops >= 1)
+                            {
+                                IJsonValue firstValue = stopsObjects.First();
+                                JsonObject firstObject = firstValue.GetObject();
+                                //try get operator departure time
+                                IJsonValue firstStoptime;
+                                firstObject.TryGetValue("departure", out firstStoptime);
+                                legObject.SetDepartureTime(firstStoptime.GetString());
+
+                                //try get departure place of the leg
+                                IJsonValue firstLocationValue;
+                                firstObject.TryGetValue("location", out firstLocationValue);
+                                JsonObject firstLocationObject = firstLocationValue.GetObject();
+
+                                IJsonValue firstLocationIdValue;
+                                firstLocationObject.TryGetValue("id", out firstLocationIdValue);
+                                legObject.departureLocation = firstLocationIdValue.GetString();
+
+
+                                //try get arrival time
+                                IJsonValue lastValue = stopsObjects.Last();
+                                JsonObject lastObject = lastValue.GetObject();
+
+                                IJsonValue lastStopTime;
+                                lastObject.TryGetValue("arrival", out lastStopTime);
+                                legObject.SetArrivalTime(lastStopTime.GetString());
+
+                                //try get destination place of the leg
+                                IJsonValue lastLocationValue;
+                                lastObject.TryGetValue("location", out lastLocationValue);
+                                JsonObject lastLocationObject = lastLocationValue.GetObject();
+
+                                IJsonValue lastLocationIdValue;
+                                lastLocationObject.TryGetValue("id", out lastLocationIdValue);
+                                legObject.arrivalLocation = lastLocationIdValue.GetString();
+                            }
                         } catch { }
                         journey.AddLeg(legObject);
                     }
