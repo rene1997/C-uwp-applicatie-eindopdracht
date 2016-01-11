@@ -14,12 +14,12 @@ namespace C_sharp_eindopdracht.Model
         private ObservableCollection<Journey> _privateJourneys = new ObservableCollection<Journey>();
         public ObservableCollection<Journey> publicJourneys { get { return this._privateJourneys; } }
         public RouteResultPage page { get; set; }
-        public LocationPageData LocationsData;
+        public LocationPageData locationsData;
 
         public RouteResultModel(RouteResultPage page, LocationPageData locations)
         {
             this.page = page;
-            this.LocationsData = locations;
+            this.locationsData = locations;
         }
 
         public void SetLocations(List<Journey> journeys)
@@ -40,7 +40,7 @@ namespace C_sharp_eindopdracht.Model
         {
             _privateJourneys.Clear();
             AddJourney(new Journey() { StartTime = "aan het laden..." });
-            string s = await GetJourneys(LocationsData.fromLocation.id, LocationsData.toLocation.id);
+            string s = await GetJourneys(locationsData.fromLocation.id, locationsData.toLocation.id, locationsData.datetime);
             _privateJourneys.Clear();
             ObservableCollection<Journey> journeys = Api.Setup.DesJourney(s);
             foreach(Journey j in journeys)
@@ -49,12 +49,9 @@ namespace C_sharp_eindopdracht.Model
             }
         }
 
-        public async Task<string> GetJourneys(string fromId, string toId)
+        public async Task<string> GetJourneys(string fromId, string toId, string datetime)
         {
-            DateTime today = DateTime.Today;
-            string date = $"{today.Year}-0{today.Month}-0{today.Day}";
-            string time = "T1406";
-            string answer =  await Api.Setup.RequestJourneys(fromId, toId, date,time);
+            string answer =  await Api.Setup.RequestJourneys(fromId, toId, datetime);
             Debug.WriteLine(answer);
             return answer;
         }

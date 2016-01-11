@@ -35,11 +35,11 @@ namespace C_sharp_eindopdracht.pages
         {
             try
             {
-                model.LocationsData = (LocationPageData)e.Parameter;
+                model.locationsData = (LocationPageData)e.Parameter;
             }
             catch (Exception)
             {
-                model.LocationsData = new LocationPageData(Soort.from);
+                model.locationsData = new LocationPageData(Soort.from);
             }
 
             model.Start();

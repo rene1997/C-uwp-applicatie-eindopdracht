@@ -97,13 +97,33 @@ namespace C_sharp_eindopdracht
 
         private void toNavigatePage_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(RouteResultPage), location);
+            DateTime today = DateTime.Today;
+            string datetime = "" + today.Year + "-";
 
-           //test shit:
-           /* string request = $"locations?lang=nl-NL&q=ams";
-            string answer = await Api.Setup.request(request);
-            ObservableCollection<Model.Location> l = await  Api.Setup.deserialiseLocation(answer);
-            Debug.WriteLine(answer);*/
+            if (today.Month < 10)
+                datetime += "0" + today.Month;
+            else
+                datetime += today.Month;
+
+            if (today.Day < 10)
+                datetime += "-0" + today.Day;
+            else
+                datetime += "-" + today.Day;
+
+            TimeSpan time =  timepicker.Time;
+
+            if (time.Hours < 10)
+                datetime += "T0" + time.Hours;
+            else
+                datetime += "T" + time.Hours;
+
+            if (time.Minutes < 10)
+                datetime += "0" + time.Minutes;
+            else
+                datetime += time.Minutes;
+            location.datetime = datetime;
+            location.isDeparture = (bool)isDeparture.IsChecked;
+            Frame.Navigate(typeof(RouteResultPage), location);
         }
     }
 }

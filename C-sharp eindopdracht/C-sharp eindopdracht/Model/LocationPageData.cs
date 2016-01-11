@@ -14,6 +14,8 @@ namespace C_sharp_eindopdracht.pages
         public Soort soort { get; set; }
         public Location fromLocation{ get; set; }
         public Location toLocation { get; set; }
+        public string datetime { get; set; }
+        public bool isDeparture { get; set; }
 
         public LocationPageData(Soort soort)
         {

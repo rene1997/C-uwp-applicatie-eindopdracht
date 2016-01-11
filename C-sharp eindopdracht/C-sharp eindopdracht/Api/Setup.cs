@@ -13,10 +13,10 @@ namespace C_sharp_eindopdracht.Api
 {
     public static class Setup
     {
-        public async static Task<string> RequestJourneys(string fromId, string toId, string date, string time)
+        public async static Task<string> RequestJourneys(string fromId, string toId, string datetime)
         {
             //string url = $"journeys? before = 1 & sequence = 1 & byFerry = true & bySubway = true & byBus = true & byTram = true & byTrain = true & lang = nl - NL & from = {fromId} & dateTime = {today.Year} - {today.Month} - {today.Day}T{today.Hour}{DateTime.Today.Minute} & searchType = departure & interchangeTime = standard & after = 5 & to = {toId}";
-            string url = $"journeys?before=1&sequence=1&byFerry=true&bySubway=true&byBus=true&byTram=true&byTrain=true&lang=nl-NL&from={fromId}&dateTime={date}{time}&searchType=departure&interchangeTime=standard&after=5&to={toId}";
+            string url = $"journeys?before=1&sequence=1&byFerry=true&bySubway=true&byBus=true&byTram=true&byTrain=true&lang=nl-NL&from={fromId}&dateTime={datetime}&searchType=departure&interchangeTime=standard&after=5&to={toId}";
             return await request(url);
         }
 
