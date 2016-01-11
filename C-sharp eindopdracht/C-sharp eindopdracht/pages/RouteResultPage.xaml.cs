@@ -48,7 +48,7 @@ namespace C_sharp_eindopdracht.pages
 
         private void GoHomeButton(object sender, RoutedEventArgs e)
         {
-
+            Frame.Navigate(typeof(MainPage), model.locationsData);
         }
 
         private void ShowHelpButton(object sender, RoutedEventArgs e)
