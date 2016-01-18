@@ -1,11 +1,11 @@
-Gui afgemaakt (René)
-	- data erin
-	- map maken
-	- databinding
-
-Connectie maken (jeroen)
-	- get request
-	- json naar objecten
-https://github.com/timvanelsloo/9292-api-spec
-
-Gps uitlezen en die data gebruiken (René)
+to do:
+Jeroen	vertrek aankomst fixen
+Rene	coordinaten voor lopen uit api json halen
+Rene	bus lijnnumer uit api json halen
+Jeroen	map gemaakt worden
+			*loop routes tekenen
+			*tussen elke leg van de route een geofence die de voltooide stap uit de route haalt
+Jeroen	Lijst boven map updaten
+René	pagina voor route te lopen maken met map
+René	huidige locatie bij plaats selectie
+Jeroen	Melding 9292 eruit ligt / geen internet o.i.d.

@@ -17,6 +17,9 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
+using Windows.Devices.Geolocation;
+using System.Threading;
+using System.Threading.Tasks;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -34,9 +37,59 @@ namespace C_sharp_eindopdracht
         {
            // this.setup = new Setup();
             this.InitializeComponent();
+            GetGeoLocation();
             
 
         }
+
+        //tijdelijk!!
+        private CancellationTokenSource _cts;
+        private Geolocator geoLocator;
+        public async Task<Geoposition> GetGeoLocation()
+        {
+            var accessStatus = await Geolocator.RequestAccessAsync();
+
+            switch (accessStatus)
+            {
+                case GeolocationAccessStatus.Allowed:
+
+                    try
+                    {
+                        //Get cancellation token
+                        _cts = new CancellationTokenSource();
+                        CancellationToken token = _cts.Token;
+
+                        //Carry out the operation
+                        return await geoLocator.GetGeopositionAsync().AsTask(token);
+
+                    }
+                    catch (TaskCanceledException)
+                    {
+                        return null;
+                    }
+                    catch (Exception ex)
+                    {
+                        // If there are no location sensors GetGeopositionAsync() 
+                        // will timeout -- that is acceptable. 
+                        const int WaitTimeoutHResult = unchecked((int)0x80070102);
+                        
+                        return null;
+                    }
+                    finally
+                    {
+                        _cts = null;
+                    }
+
+                case GeolocationAccessStatus.Denied:
+                    return null;
+
+                case GeolocationAccessStatus.Unspecified:
+                    return null;
+            }
+
+            return null;
+        }
+
 
         private void fromTextbox_Click(object sender, RoutedEventArgs e)
         {

@@ -77,6 +77,7 @@ namespace C_sharp_eindopdracht.pages
             if(InputField.Text.Length % 3 == 0)
             {
                 model._privateLocations.Clear();
+                model.Addlocation(new Location() { Name = "huidige locatie", type = "locatie", id = "current position" });
                 model.Addlocation(new Location() { Name = "laden..." });
                 await model.NewRequest(InputField.Text);
             }
