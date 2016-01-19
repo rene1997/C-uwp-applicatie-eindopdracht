@@ -1,6 +1,8 @@
 ﻿using C_sharp_eindopdracht.Model;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.UI.Xaml;
@@ -16,7 +18,7 @@ namespace C_sharp_eindopdracht.pages
     /// </summary>
     public sealed partial class MapPage : Page
     {
-        private ObservableCollection<Leg> list { get; set; } = new ObservableCollection<Leg>();
+        private ObservableCollection<Leg> list { get; set; }
 
         public MapPage()
         {
@@ -28,20 +30,30 @@ namespace C_sharp_eindopdracht.pages
             Frame.Navigate(typeof(MainPage));
         }
 
-        private async void AppBarButton_Click_Location(object sender, RoutedEventArgs e)
+        private void fillList(List<Leg> legs)
         {
-            // Get my current location.
-            Geolocator myGeolocator = new Geolocator();
-            Geoposition myGeoposition = await myGeolocator.GetGeopositionAsync();
-            
-            Geopoint myPoint = new Geopoint(new BasicGeoposition() { Latitude = myGeoposition.Coordinate.Latitude, Longitude = myGeoposition.Coordinate.Longitude });
-            //create POI
-            MapIcon myPOI = new MapIcon { Location = myPoint, NormalizedAnchorPoint = new Point(0.5, 1.0), Title = "U bevindt zich hier", ZIndex = 0 };
-            
-            // add to map and center it
-            MapView.MapElements.Add(myPOI);
-            MapView.Center = myPoint;
-            MapView.ZoomLevel = 15;
+            list = new ObservableCollection<Leg>();
+            foreach (Leg l in legs)
+            {
+                list.Add(l);
+            }
+        }
+
+        private async void UpdateMap()
+        {
+            if (!list.Any())
+            {
+                Frame.Navigate(typeof(MainPage));
+            }
+            else
+            {
+
+            }
+        }
+
+        private void Setpushpin()
+        {
+
         }
     }
 }

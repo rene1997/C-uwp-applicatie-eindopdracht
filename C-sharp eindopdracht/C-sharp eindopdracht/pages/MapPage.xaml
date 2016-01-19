@@ -17,7 +17,6 @@
 
     <Page.BottomAppBar>
         <CommandBar>
-            <!--<AppBarButton Icon="MapPin" Click="AppBarButton_Click_Location" Label="locatie"/>-->
             <AppBarButton Icon="Home" Click="AppBarButton_Click" Label="terug"/>
         </CommandBar>
     </Page.BottomAppBar>

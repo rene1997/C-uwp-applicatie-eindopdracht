@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Devices.Geolocation;
 
 namespace C_sharp_eindopdracht.Model
 {
@@ -17,6 +18,7 @@ namespace C_sharp_eindopdracht.Model
         public string departureLocation { get; set; }
         public string arrivalTime { get; set; }
         public string arrivalLocation { get; set; }
+        public BasicGeoposition position { get; set; }
 
         public void SetDepartureTime(string departureTime)
         {
