@@ -7,22 +7,35 @@
     xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
     x:Class="C_sharp_eindopdracht.pages.MapPage"
     mc:Ignorable="d">
+
+    <Page.Resources>
+        <Style TargetType="ListView">
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+    </Page.Resources>
+
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Icon="MapPin" Click="AppBarButton_Click_Location" Label="locatie"/>
+            <!--<AppBarButton Icon="MapPin" Click="AppBarButton_Click_Location" Label="locatie"/>-->
             <AppBarButton Icon="Home" Click="AppBarButton_Click" Label="terug"/>
         </CommandBar>
     </Page.BottomAppBar>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Maps:MapControl
-            x:Name="MapView"
-            ZoomInteractionMode="GestureAndControl"
-            TiltInteractionMode="GestureAndControl"
-            PedestrianFeaturesVisible="True"
-            MapServiceToken=" fUjJakE9dHpTtmdKvrAU~jKob-u2RkyRPFRQOnAt0HQ~ArCJLWoycesNibqCa_eyZcOL55E2i1CSAcWjOFDFr5LMTfFeukie8lms-djV6Z1_"
-            
-            />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="150"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <ListView x:Name="listview" Grid.Row="0" ScrollViewer.VerticalScrollMode="Auto" Margin="5"/>
+            <Maps:MapControl
+                x:Name="MapView"
+                Grid.Row="1"
+                ZoomInteractionMode="GestureAndControl"
+                TiltInteractionMode="GestureAndControl"
+                PedestrianFeaturesVisible="True"
+                MapServiceToken=" fUjJakE9dHpTtmdKvrAU~jKob-u2RkyRPFRQOnAt0HQ~ArCJLWoycesNibqCa_eyZcOL55E2i1CSAcWjOFDFr5LMTfFeukie8lms-djV6Z1_"
+                />
+        </Grid>
     </Grid>
-
-
 </Page>

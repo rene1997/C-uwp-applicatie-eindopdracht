@@ -6,7 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Data.Json;
+using Windows.UI.Xaml.Controls;
 using Windows.Web.Http;
 
 namespace C_sharp_eindopdracht.Api
@@ -37,8 +39,14 @@ namespace C_sharp_eindopdracht.Api
                 Uri uri = new Uri($"https://api.9292.nl/0.1/{requested}");
                 var response = await client.GetAsync(uri).AsTask(cts.Token);
 
-                if (!response.IsSuccessStatusCode)
+                if (!response.IsSuccessStatusCode || (response.StatusCode == HttpStatusCode.RequestTimeout))
                 {
+                    var dialog = new Windows.UI.Popups.MessageDialog("");
+                    dialog.Content = "De api van 9292.nl is offline, of uw internet staat uit.";
+                    dialog.Commands.Add(new Windows.UI.Popups.UICommand("Oke") { Id = 0 });
+                    await dialog.ShowAsync();
+                    CoreApplication.Exit();
+
                     return string.Empty;
                 }
 

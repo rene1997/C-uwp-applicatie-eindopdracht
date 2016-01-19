@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
+using System.Net;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -34,8 +35,6 @@ namespace C_sharp_eindopdracht
         {
            // this.setup = new Setup();
             this.InitializeComponent();
-            
-
         }
 
         private void fromTextbox_Click(object sender, RoutedEventArgs e)
