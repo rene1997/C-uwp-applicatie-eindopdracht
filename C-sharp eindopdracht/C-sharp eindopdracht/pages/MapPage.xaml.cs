@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Services.Maps;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
+using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -53,6 +55,16 @@ namespace C_sharp_eindopdracht.pages
             UpdateMap();
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            timer.Start();
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            timer.Stop();
+        }
+
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MainPage));
@@ -75,7 +87,12 @@ namespace C_sharp_eindopdracht.pages
             }
             else
             {
+                var route = await Getroute();
+                MapRouteView path = new MapRouteView(route.Route);
+                path.RouteColor = Colors.AliceBlue;
 
+                MapView.Routes.Clear();
+                MapView.Routes.Add(path);
             }
         }
 
