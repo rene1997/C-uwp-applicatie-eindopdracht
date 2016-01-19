@@ -22,6 +22,14 @@ namespace C_sharp_eindopdracht.Api
             return await request(url);
         }
 
+        public async static Task<Location> RequestLocationFromCoordinate(string latlong)
+        {
+            string url = $"locations?lang=nl-NL&latlong={latlong}";
+            string answer = await request(url);
+            ObservableCollection<Location> locations =  await deserialiseLocation(answer);
+            return locations.First();
+        }
+
         public async static Task<String> RequestLocations(string searchQuery)
         {
             string url = $"locations?lang=nl-NL&q={searchQuery}";

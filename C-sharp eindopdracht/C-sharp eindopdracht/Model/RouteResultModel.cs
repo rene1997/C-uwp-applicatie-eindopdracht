@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Devices.Geolocation;
 
 namespace C_sharp_eindopdracht.Model
 {
@@ -51,7 +52,25 @@ namespace C_sharp_eindopdracht.Model
 
         public async Task<string> GetJourneys(string fromId, string toId, string datetime)
         {
-            string answer =  await Api.Setup.RequestJourneys(fromId, toId, datetime);
+            string c = "current position";
+            if (fromId.Equals(c) || toId.Equals(c))
+            {
+                // Get my current location.
+                Geolocator myGeolocator = new Geolocator();
+                Geoposition myGeoposition = await myGeolocator.GetGeopositionAsync();
+                Location l = await Api.Setup.RequestLocationFromCoordinate($"{myGeoposition.Coordinate.Point.Position.Latitude},{myGeoposition.Coordinate.Point.Position.Longitude}");
+                if (fromId.Equals(c))
+                {
+                    fromId = l.id;
+                }
+                if (toId.Equals(c))
+                {
+                    toId = l.id;
+                }
+            }
+            string answer;
+                             
+            answer =  await Api.Setup.RequestJourneys(fromId, toId, datetime);
             Debug.WriteLine(answer);
             return answer;
         }

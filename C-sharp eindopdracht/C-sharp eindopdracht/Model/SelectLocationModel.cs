@@ -20,7 +20,8 @@ namespace C_sharp_eindopdracht.Model
             //parse data to objects
             ObservableCollection<Location> locations  = await Api.Setup.deserialiseLocation(answer);
             _privateLocations.Clear();
-            foreach(Location l in locations)
+            Addlocation(new Location() { Name = "huidige locatie", type = "locatie", id = "current position" });
+            foreach (Location l in locations)
             {
                 Addlocation(l);
             }
@@ -34,6 +35,7 @@ namespace C_sharp_eindopdracht.Model
 
         public async void Start()
         {
+            Addlocation(new Location() { Name = "huidige locatie", type = "locatie", id = "current position" });
             Addlocation(new Location() { Name = "typ voor resultaten", type = "info", id = "" });
         }
 
