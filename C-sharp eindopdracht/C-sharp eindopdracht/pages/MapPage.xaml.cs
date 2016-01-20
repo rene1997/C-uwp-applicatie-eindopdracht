@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
+using Windows.Devices.Geolocation.Geofencing;
 using Windows.Foundation;
 using Windows.Services.Maps;
 using Windows.UI;
@@ -23,7 +24,7 @@ namespace C_sharp_eindopdracht.pages
     public sealed partial class MapPage : Page
     {
         private MapPageModel model;
-        private ObservableCollection<Leg> list { get; set; }
+        //private ObservableCollection<Leg> list { get; set; }
         private DispatcherTimer timer = new DispatcherTimer();
         private Geolocator locator;
         private Geoposition position;
@@ -60,16 +61,18 @@ namespace C_sharp_eindopdracht.pages
         {
             try
             {
-                LocationPageData l  = (LocationPageData)e.Parameter;
+                LocationPageData l = (LocationPageData)e.Parameter;
                 fillList(l.legs);
             }
             catch { }
-            timer.Start();
 
+            GeofenceMonitor.Current.GeofenceStateChanged += Current_GeofenceStateChanged;
+            timer.Start();
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
+            GeofenceMonitor.Current.GeofenceStateChanged -= Current_GeofenceStateChanged;
             timer.Stop();
         }
 
@@ -85,18 +88,23 @@ namespace C_sharp_eindopdracht.pages
 
         private async void UpdateMap()
         {
-            if (!model.publicLocations.Any())
+            if (!model.publicLocations.Any() || model.publicLocations == null)
             {
                 Frame.Navigate(typeof(MainPage));
             }
             else
             {
-                var route = await Getroute();
-                MapRouteView path = new MapRouteView(route.Route);
-                path.RouteColor = Colors.AliceBlue;
-
                 MapView.Routes.Clear();
-                MapView.Routes.Add(path);
+                foreach (Leg l in model.publicLocations)
+                {
+                    if (l.type.Equals("walk"))
+                    {
+                        var route = await Getroute(l);
+                        MapRouteView path = new MapRouteView(route.Route);
+                        path.RouteColor = Colors.AliceBlue;
+                        MapView.Routes.Add(path);
+                    }
+                }
             }
         }
 
@@ -105,12 +113,28 @@ namespace C_sharp_eindopdracht.pages
 
         }
 
-        private async Task<MapRouteFinderResult> Getroute()
+        private async Task<MapRouteFinderResult> GetrouteWithUser()
         {
             try
             {
                 List<Geopoint> geolist = new List<Geopoint>();
                 geolist.Add(position.Coordinate.Point);
+
+                return await MapRouteFinder.GetWalkingRouteFromWaypointsAsync(geolist);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        private async Task<MapRouteFinderResult> Getroute(Leg l)
+        {
+            try
+            {
+                List<Geopoint> geolist = new List<Geopoint>();
+                geolist.Add(new Geopoint(l.departurePosition));
+                geolist.Add(new Geopoint(l.arrivalPosition));
 
                 return await MapRouteFinder.GetWalkingRouteFromWaypointsAsync(geolist);
             }
@@ -129,5 +153,15 @@ namespace C_sharp_eindopdracht.pages
                 user.NormalizedAnchorPoint = new Point(0.5, 0.5);
             }
         }
+
+        private void Current_GeofenceStateChanged(GeofenceMonitor sender, object args)
+        {
+            if (model.publicLocations.Count() > 1)
+            {
+                model.publicLocations.RemoveAt(0);
+            }
+            //else toevoegen dat je er bent
+        }
+
     }
 }

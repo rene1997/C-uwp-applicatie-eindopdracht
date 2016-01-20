@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
+using Windows.Devices.Geolocation.Geofencing;
 
 namespace C_sharp_eindopdracht.Model
 {
@@ -20,6 +21,7 @@ namespace C_sharp_eindopdracht.Model
         public string arrivalLocation { get; set; }
         public BasicGeoposition departurePosition { get; set; }
         public BasicGeoposition arrivalPosition { get; set; }
+        public Geofence Fence_a;        //fence voor arrival. departure hoeft niet, anders krijg je duplicaten of overliggende geofences
 
         public void SetDeparturePosition(string lat, string lon)
         {
@@ -56,6 +58,23 @@ namespace C_sharp_eindopdracht.Model
                 this.arrivalTime = arrivalTime.Split('T').Last();
             }
             catch { }
+        }
+
+        public void AddFence()
+        {
+            Geocircle circle = new Geocircle(arrivalPosition, 25);
+            MonitoredGeofenceStates masking = 0;
+            masking |= MonitoredGeofenceStates.Entered;
+            var geofence1 = new Geofence(name, circle, masking, true, TimeSpan.FromSeconds(1));
+
+            // Replace if it already exists for this maneuver key
+            var oldFence = GeofenceMonitor.Current.Geofences.Where(p => p.Id == name).FirstOrDefault();
+            if (oldFence != null)
+            {
+                GeofenceMonitor.Current.Geofences.Remove(oldFence);
+            }
+            GeofenceMonitor.Current.Geofences.Add(geofence1);
+            Fence_a = geofence1;
         }
     }
 }
