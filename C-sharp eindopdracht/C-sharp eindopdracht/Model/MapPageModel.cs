@@ -17,7 +17,7 @@ namespace C_sharp_eindopdracht.Model
 
         }
 
-        public void FillList(List<Leg> legs)
+        public void FillList(ObservableCollection<Leg> legs)
         {
             foreach (Leg l in legs)
             {

@@ -23,8 +23,9 @@
             <CommandBar.Content>
                 <Grid/>
             </CommandBar.Content>
-            <AppBarButton Icon="Home" Label="terug"/>
-            <AppBarButton Icon="Back" Click="AppBarButton_Click" Label="zoek"/>
+            <AppBarButton Icon="Map" Label="Naar de map" Click="AppBarButton_Click"  x:Name="mapButton"/>
+            <AppBarButton Icon="Home" Label="Terug" x:Name="homeButton" Click="AppBarButton_Click"/>
+            <AppBarButton Icon="Back" Click="AppBarButton_Click" Label="Zoek" x:Name="backButton"/>
             <CommandBar.SecondaryCommands>
                 <AppBarButton Icon="PostUpdate" Label="for testing "></AppBarButton>
             </CommandBar.SecondaryCommands>
@@ -65,8 +66,6 @@
                 <!--Info of legs:-->
                 <ListView Name="Legs"
                           ItemsSource="{x:Bind model.publicLegs}"
-                          ItemClick="Legs_ItemClick"    
-                          IsItemClickEnabled="True"
                           Grid.Row="4">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="local:Leg">

@@ -70,7 +70,7 @@ namespace C_sharp_eindopdracht.Model
             }
             string answer;
                              
-            answer =  await Api.Setup.RequestJourneys(fromId, toId, datetime);
+            answer =  await Api.Setup.RequestJourneys(fromId, toId, datetime, locationsData.isDeparture);
             Debug.WriteLine(answer);
             return answer;
         }

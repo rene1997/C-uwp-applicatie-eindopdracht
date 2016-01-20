@@ -15,10 +15,15 @@ namespace C_sharp_eindopdracht.Api
 {
     public static class Setup
     {
-        public async static Task<string> RequestJourneys(string fromId, string toId, string datetime)
+        public async static Task<string> RequestJourneys(string fromId, string toId, string datetime, bool isVertrek)
         {
             //string url = $"journeys? before = 1 & sequence = 1 & byFerry = true & bySubway = true & byBus = true & byTram = true & byTrain = true & lang = nl - NL & from = {fromId} & dateTime = {today.Year} - {today.Month} - {today.Day}T{today.Hour}{DateTime.Today.Minute} & searchType = departure & interchangeTime = standard & after = 5 & to = {toId}";
-            string url = $"journeys?before=1&sequence=1&byFerry=true&bySubway=true&byBus=true&byTram=true&byTrain=true&lang=nl-NL&from={fromId}&dateTime={datetime}&searchType=departure&interchangeTime=standard&after=5&to={toId}";
+            string url = "";
+            if (isVertrek)
+                url = $"journeys?before=1&sequence=1&byFerry=true&bySubway=true&byBus=true&byTram=true&byTrain=true&lang=nl-NL&from={fromId}&dateTime={datetime}&searchType=departure&interchangeTime=standard&after=5&to={toId}";
+            else
+                url = $"journeys?before=1&sequence=1&byFerry=true&bySubway=true&byBus=true&byTram=true&byTrain=true&lang=nl-NL&from={fromId}&dateTime={datetime}&searchType=arrival&interchangeTime=standard&after=5&to={toId}";
+
             return await request(url);
         }
 
@@ -26,7 +31,7 @@ namespace C_sharp_eindopdracht.Api
         {
             string url = $"locations?lang=nl-NL&latlong={latlong}";
             string answer = await request(url);
-            ObservableCollection<Location> locations =  await deserialiseLocation(answer);
+            ObservableCollection<Location> locations = await deserialiseLocation(answer);
             return locations.First();
         }
 
@@ -39,7 +44,7 @@ namespace C_sharp_eindopdracht.Api
         public static async Task<string> request(string requested)
         {
             var cts = new CancellationTokenSource();
-                cts.CancelAfter(5000);
+            cts.CancelAfter(5000);
 
             try
             {
@@ -102,7 +107,8 @@ namespace C_sharp_eindopdracht.Api
 
                 IJsonValue urlValue;
                 IJsonValue NLUrl = null;
-                try {
+                try
+                {
                     itemObj.TryGetValue("urls", out urlValue);
                     JsonObject urlObject = urlValue.GetObject();
                     urlObject.TryGetValue("nl-NL", out NLUrl);
@@ -115,14 +121,14 @@ namespace C_sharp_eindopdracht.Api
                 l.type = typeValue.GetString();
                 l.latitude = latVal.GetNumber();
                 l.longitude = longVal.GetNumber();
-               
+
 
                 try
                 {
                     l.url = NLUrl.GetString();
                 }
                 catch { }
-                
+
 
                 collection.Add(l);
             }
@@ -148,15 +154,18 @@ namespace C_sharp_eindopdracht.Api
                 IJsonValue departureValue;
                 IJsonValue arrivalValue;
                 //try get arrival and departure time from highest level in json
-                try {
+                try
+                {
                     itemObj.TryGetValue("departure", out departureValue);
                     journey.SetStartTime(departureValue.GetString());
-                }catch { }
+                }
+                catch { }
                 try
                 {
                     itemObj.TryGetValue("arrival", out arrivalValue);
                     journey.SetEndTime(arrivalValue.GetString());
-                }catch { }
+                }
+                catch { }
 
                 //try to get amount of changes
                 IJsonValue changesValues;
@@ -164,12 +173,13 @@ namespace C_sharp_eindopdracht.Api
                 {
                     itemObj.TryGetValue("numberOfChanges", out changesValues);
                     journey.NumberOfChanges = (int)changesValues.GetNumber();
-                }catch { }
+                }
+                catch { }
 
                 //try to get legs from the route 
                 
                 //get value legs:
-                IJsonValue legsValue ;
+                IJsonValue legsValue;
                 itemObj.TryGetValue("legs", out legsValue);
                 JsonArray legsObjects = legsValue.GetArray();
 
@@ -188,7 +198,8 @@ namespace C_sharp_eindopdracht.Api
                         {
                             legItemObj.TryGetValue("destination", out legDestinationValue);
                             legObject.destination = legDestinationValue.GetString();
-                        } catch { }
+                        }
+                        catch { }
 
                         //get name and type of leg
                         ///position = journeys>0>legs>0>mode
@@ -223,8 +234,7 @@ namespace C_sharp_eindopdracht.Api
                             legObject.operatorName = legOperatorName.GetString();
                         } catch { }
                         ///position ..
-
-
+                        
                         //try to get stops in the leg 
                         //get value stops:
                         ///position = journeys>0>legs>0>stops
@@ -238,7 +248,7 @@ namespace C_sharp_eindopdracht.Api
                             int amountOfStops = stopsObjects.Count + 1;
                             legObject.stops = amountOfStops;
 
-                            if(amountOfStops >= 1)
+                            if (amountOfStops >= 1)
                             {
                                 ///position = journeys>0>legs>0>stops>0
                                 IJsonValue firstValue = stopsObjects.First();
@@ -307,11 +317,13 @@ namespace C_sharp_eindopdracht.Api
 
                                 legObject.SetArrivalPosition(lastLocationLatValue.GetString(), lastLocationLongValue.GetString());
                             }
-                        } catch { }
+                        }
+                        catch { }
                         journey.AddLeg(legObject);
                     }
                     journeyCollection.Add(journey);
-                }catch { }
+                }
+                catch { }
             }
             return journeyCollection;
         }
