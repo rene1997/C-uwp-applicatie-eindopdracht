@@ -22,6 +22,7 @@ namespace C_sharp_eindopdracht.pages
     /// </summary>
     public sealed partial class MapPage : Page
     {
+        private MapPageModel model;
         private ObservableCollection<Leg> list { get; set; }
         private DispatcherTimer timer = new DispatcherTimer();
         private Geolocator locator;
@@ -32,7 +33,7 @@ namespace C_sharp_eindopdracht.pages
         {
             this.InitializeComponent();
             MapView.MapElements.Add(user);
-
+            model = new MapPageModel();
             locator = new Geolocator()
             {
                 ReportInterval = 1500
@@ -72,11 +73,7 @@ namespace C_sharp_eindopdracht.pages
 
         private void fillList(List<Leg> legs)
         {
-            list = new ObservableCollection<Leg>();
-            foreach (Leg l in legs)
-            {
-                list.Add(l);
-            }
+            model.FillList(legs);
         }
 
         private async void UpdateMap()

@@ -9,7 +9,7 @@ namespace C_sharp_eindopdracht.Model
 {
     public class Leg
     {
-        public string type { get; set; }
+        public string type { get; set; } //lopen = walk  //bus = bus //trein = train
         public string name { get; set; }
         public string destination { get; set; }
         public string operatorName { get; set; }
@@ -18,7 +18,8 @@ namespace C_sharp_eindopdracht.Model
         public string departureLocation { get; set; }
         public string arrivalTime { get; set; }
         public string arrivalLocation { get; set; }
-        public BasicGeoposition position { get; set; }
+        public BasicGeoposition departurePosition { get; set; }
+        public BasicGeoposition arrivalPosition { get; set; }
 
         public void SetDepartureTime(string departureTime)
         {

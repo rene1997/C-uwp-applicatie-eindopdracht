@@ -102,6 +102,7 @@
     <Compile Include="Model\Journey.cs" />
     <Compile Include="Model\JourneyModel.cs" />
     <Compile Include="Model\Leg.cs" />
+    <Compile Include="Model\MapPageModel.cs" />
     <Compile Include="Model\RouteResultModel.cs" />
     <Compile Include="pages\JourneyPage.xaml.cs">
       <DependentUpon>JourneyPage.xaml</DependentUpon>
