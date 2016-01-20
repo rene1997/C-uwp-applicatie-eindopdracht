@@ -21,6 +21,25 @@ namespace C_sharp_eindopdracht.Model
         public BasicGeoposition departurePosition { get; set; }
         public BasicGeoposition arrivalPosition { get; set; }
 
+        public void SetDeparturePosition(string lat, string lon)
+        {
+            try
+            {
+                departurePosition = new BasicGeoposition() { Latitude = Double.Parse(lat), Longitude = Double.Parse(lon) };
+            }
+            catch { }
+            
+        }
+
+        public void SetArrivalPosition(string lat, string lon)
+        {
+            try
+            {
+                arrivalPosition = new BasicGeoposition() { Latitude = Double.Parse(lat), Longitude = Double.Parse(lon) };
+            }
+            catch { }
+        }
+
         public void SetDepartureTime(string departureTime)
         {
             try
