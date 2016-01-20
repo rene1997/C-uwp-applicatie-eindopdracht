@@ -58,7 +58,14 @@ namespace C_sharp_eindopdracht.pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            try
+            {
+                LocationPageData l  = (LocationPageData)e.Parameter;
+                fillList(l.legs);
+            }
+            catch { }
             timer.Start();
+
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -71,14 +78,14 @@ namespace C_sharp_eindopdracht.pages
             Frame.Navigate(typeof(MainPage));
         }
 
-        private void fillList(List<Leg> legs)
+        private void fillList(ObservableCollection<Leg> legs)
         {
             model.FillList(legs);
         }
 
         private async void UpdateMap()
         {
-            if (!list.Any())
+            if (!model.publicLocations.Any())
             {
                 Frame.Navigate(typeof(MainPage));
             }

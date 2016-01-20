@@ -38,7 +38,7 @@ namespace C_sharp_eindopdracht.pages
                 model = new JourneyModel((Journey)e.Parameter);
                 journey = (Journey)e.Parameter;
                 LoadInfoOnPage();
-                
+
             }
             catch (Exception)
             {
@@ -48,17 +48,20 @@ namespace C_sharp_eindopdracht.pages
 
         private void LoadInfoOnPage()
         {
-           
+
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.GoBack();
-        }
-
-        private void Legs_ItemClick(object sender, ItemClickEventArgs e)
-        {
-
+            if (sender.Equals(backButton))
+                Frame.GoBack();
+            else if (sender.Equals(mapButton))
+            {
+                LocationPageData l = new LocationPageData();
+                l.legs = model.publicLegs;
+                Frame.Navigate(typeof(MapPage), l);
+            }
+            else Frame.Navigate(typeof(MainPage));
         }
     }
 }
