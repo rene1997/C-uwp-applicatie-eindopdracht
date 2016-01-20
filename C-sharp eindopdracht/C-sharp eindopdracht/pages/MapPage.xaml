@@ -64,6 +64,7 @@
                 ZoomInteractionMode="GestureAndControl"
                 TiltInteractionMode="GestureAndControl"
                 PedestrianFeaturesVisible="True"
+                ZoomLevel="18"
                 MapServiceToken=" fUjJakE9dHpTtmdKvrAU~jKob-u2RkyRPFRQOnAt0HQ~ArCJLWoycesNibqCa_eyZcOL55E2i1CSAcWjOFDFr5LMTfFeukie8lms-djV6Z1_"
                 />
         </Grid>

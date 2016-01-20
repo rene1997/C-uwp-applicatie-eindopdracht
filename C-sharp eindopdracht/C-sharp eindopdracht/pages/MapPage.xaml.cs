@@ -54,6 +54,7 @@ namespace C_sharp_eindopdracht.pages
 
         private void Timer_Tick(object sender, object e)
         {
+            RefreshMapLocation();
             UpdateMap();
         }
 
@@ -162,6 +163,5 @@ namespace C_sharp_eindopdracht.pages
             }
             //else toevoegen dat je er bent
         }
-
     }
 }
