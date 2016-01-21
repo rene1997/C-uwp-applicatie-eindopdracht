@@ -44,6 +44,8 @@ namespace C_sharp_eindopdracht.pages
 
             timer.Interval = TimeSpan.FromSeconds(2);
             timer.Tick += Timer_Tick;
+
+            Setpushpin();
         }
 
         private void Locator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
@@ -116,7 +118,10 @@ namespace C_sharp_eindopdracht.pages
 
         private void Setpushpin()
         {
-
+            MapIcon icon = new MapIcon();
+            icon.Location = new Geopoint(model.publicLocations.Last().arrivalPosition);
+            icon.NormalizedAnchorPoint = new Point(0.5, 0.5);
+            MapView.MapElements.Add(icon);
         }
 
         private async Task<MapRouteFinderResult> GetrouteWithUser()
