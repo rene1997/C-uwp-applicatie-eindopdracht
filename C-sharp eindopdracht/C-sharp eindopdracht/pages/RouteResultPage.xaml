@@ -25,9 +25,7 @@
             </CommandBar.Content>
             <AppBarButton Icon="Home" Click="GoHomeButton" Label="terug"/>
             <AppBarButton Icon="Help" Click="ShowHelpButton"  Label="zoek"/>
-            <CommandBar.SecondaryCommands>
-                <AppBarButton Icon="PostUpdate" Label="for testing " ></AppBarButton>
-            </CommandBar.SecondaryCommands>
+            
         </CommandBar>
 
     </Page.BottomAppBar>

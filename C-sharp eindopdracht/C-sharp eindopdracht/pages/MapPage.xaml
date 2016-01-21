@@ -24,7 +24,7 @@
             <AppBarButton Icon="Home" Click="AppBarButton_Click" Label="terug"/>
         </CommandBar>
     </Page.BottomAppBar>
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="Transparent">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="150"/>
