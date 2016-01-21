@@ -116,10 +116,10 @@ namespace C_sharp_eindopdracht.pages
 
         private void Setpushpin()
         {
-            /*MapIcon icon = new MapIcon();
+            MapIcon icon = new MapIcon();
             icon.Location = new Geopoint(model.publicLocations.Last().arrivalPosition);
             icon.NormalizedAnchorPoint = new Point(0.5, 0.5);
-            MapView.MapElements.Add(icon);*/
+            MapView.MapElements.Add(icon);
         }
 
         private async Task<MapRouteFinderResult> GetrouteWithUser()
