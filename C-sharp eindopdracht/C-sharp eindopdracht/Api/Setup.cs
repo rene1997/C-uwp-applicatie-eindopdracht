@@ -135,6 +135,11 @@ namespace C_sharp_eindopdracht.Api
             return collection;
         }
 
+        /// <summary>
+        /// this method deserialized all journeys
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
         public static ObservableCollection<Journey> DesJourney(string json)
         {
             ObservableCollection<Journey> journeyCollection = new ObservableCollection<Journey>();
@@ -149,195 +154,247 @@ namespace C_sharp_eindopdracht.Api
             //for each journey:
             foreach (IJsonValue journeyJson in journeys)
             {
-                Journey journey = new Journey();
-                JsonObject itemObj = journeyJson.GetObject();
-                IJsonValue departureValue;
-                IJsonValue arrivalValue;
-                //try get arrival and departure time from highest level in json
                 try
                 {
-                    itemObj.TryGetValue("departure", out departureValue);
-                    journey.SetStartTime(departureValue.GetString());
-                }
-                catch { }
-                try
-                {
-                    itemObj.TryGetValue("arrival", out arrivalValue);
-                    journey.SetEndTime(arrivalValue.GetString());
-                }
-                catch { }
-
-                //try to get amount of changes
-                IJsonValue changesValues;
-                try
-                {
-                    itemObj.TryGetValue("numberOfChanges", out changesValues);
-                    journey.NumberOfChanges = (int)changesValues.GetNumber();
-                }
-                catch { }
-
-                //try to get legs from the route 
+                    journeyCollection.Add(DesOneJourney(journeyJson));
+                }catch { }
                 
-                //get value legs:
-                IJsonValue legsValue;
-                itemObj.TryGetValue("legs", out legsValue);
-                JsonArray legsObjects = legsValue.GetArray();
-
-
-                //for each leg in the route
-
-                try {
-                    ///position = journeys>0>legs>0
-                    foreach (IJsonValue leg in legsObjects)
-                    {
-                        Leg legObject = new Leg();
-                        JsonObject legItemObj = leg.GetObject();
-                        //get destination of the leg ("Maastricht")
-                        IJsonValue legDestinationValue;
-                        try
-                        {
-                            legItemObj.TryGetValue("destination", out legDestinationValue);
-                            legObject.destination = legDestinationValue.GetString();
-                        }
-                        catch { }
-
-                        //get name and type of leg
-                        ///position = journeys>0>legs>0>mode
-                        IJsonValue typemodeValue;
-                        legItemObj.TryGetValue("mode", out typemodeValue);
-                        JsonObject typemodeObject = typemodeValue.GetObject();
-                        //try get type ("train")
-                        IJsonValue modetype;
-                        //try get name ("intercity")
-                        IJsonValue modename;
-                        try
-                        {
-                            typemodeObject.TryGetValue("name", out modename);
-                            typemodeObject.TryGetValue("type", out modetype);
-
-                            legObject.name = modename.GetString();
-                            legObject.type = modetype.GetString();
-
-                            if (legObject.type.Contains("bus"))
-                            {
-                                IJsonValue lineNumberValue;
-                                legItemObj.TryGetValue("service", out lineNumberValue);
-                                legObject.name = lineNumberValue.GetString();
-                            }
-                        } catch { }
-                        ///position ..
-                        
-
-                        //get operator of leg
-                        ///position = journeys>0>legs>0>Operator
-                        IJsonValue operatorlegvalue;
-                        try
-                        {
-                            legItemObj.TryGetValue("operator", out operatorlegvalue);
-                            JsonObject operatorlegObject = operatorlegvalue.GetObject();
-                            //try get operator name ("NS")
-                            IJsonValue legOperatorName;
-                            typemodeObject.TryGetValue("name", out legOperatorName);
-                            legObject.operatorName = legOperatorName.GetString();
-                        } catch { }
-                        ///position ..
-                        
-                        //try to get stops in the leg 
-                        //get value stops:
-                        ///position = journeys>0>legs>0>stops
-                        IJsonValue stopsValue;
-                        legItemObj.TryGetValue("stops", out stopsValue);
-
-                        //get amount of stops
-                        JsonArray stopsObjects = stopsValue.GetArray();
-                        try
-                        {
-                            int amountOfStops = stopsObjects.Count + 1;
-                            legObject.stops = amountOfStops;
-
-                            if (amountOfStops >= 1)
-                            {
-                                ///position = journeys>0>legs>0>stops>0
-                                IJsonValue firstValue = stopsObjects.First();
-                                JsonObject firstObject = firstValue.GetObject();
-                                //try get operator departure time
-                                IJsonValue firstStoptime;
-                                firstObject.TryGetValue("departure", out firstStoptime);
-                                legObject.SetDepartureTime(firstStoptime.GetString());
-
-                                //try get departure place of the leg
-                                ///position = journeys>0>legs>0>stops>0>location
-                                IJsonValue firstLocationValue;
-                                firstObject.TryGetValue("location", out firstLocationValue);
-                                JsonObject firstLocationObject = firstLocationValue.GetObject();
-
-                                IJsonValue firstLocationIdValue;
-                                firstLocationObject.TryGetValue("id", out firstLocationIdValue);
-                                legObject.departureLocation = firstLocationIdValue.GetString();
-
-                                //try get latlong
-                                ///position journeys>0>legs>0>stops>0>location>latLong
-                                IJsonValue firstLocationLatLongValue;
-                                firstLocationObject.TryGetValue("latLong", out firstLocationLatLongValue);
-                                JsonObject firstLocationLatLongObject = firstLocationLatLongValue.GetObject();
-
-                                //try get latitude
-                                IJsonValue firstLocationLatValue;
-                                firstLocationLatLongObject.TryGetValue("lat", out firstLocationLatValue);
-                                //try get longitude
-                                IJsonValue firstLocationLongValue;
-                                firstLocationLatLongObject.TryGetValue("long", out firstLocationLongValue);
-                                try
-                                {
-                                    legObject.SetDeparturePosition(firstLocationLatValue.GetNumber(), firstLocationLongValue.GetNumber());
-                                }
-                                catch(Exception ex) {
-                                }
-
-                                ///position = journeys>0>legs>0>stops>last>
-                                //try get arrival time
-                                IJsonValue lastValue = stopsObjects.Last();
-                                JsonObject lastObject = lastValue.GetObject();
-
-                                IJsonValue lastStopTime;
-                                lastObject.TryGetValue("arrival", out lastStopTime);
-                                legObject.SetArrivalTime(lastStopTime.GetString());
-
-                                //try get destination place of the leg
-                                ///position = journeys>0>legs>0>stops>last>location
-                                IJsonValue lastLocationValue;
-                                lastObject.TryGetValue("location", out lastLocationValue);
-                                JsonObject lastLocationObject = lastLocationValue.GetObject();
-
-                                IJsonValue lastLocationIdValue;
-                                lastLocationObject.TryGetValue("id", out lastLocationIdValue);
-                                legObject.arrivalLocation = lastLocationIdValue.GetString();
-
-                                //try get latlong
-                                ///position journeys>0>legs>0>stops>100>location>latLong
-                                IJsonValue lastLocationLatLongValue;
-                                lastLocationObject.TryGetValue("latLong", out lastLocationLatLongValue);
-                                JsonObject lastLocationLatLongObject = lastLocationLatLongValue.GetObject();
-
-                                //try get latitude
-                                IJsonValue lastLocationLatValue;
-                                lastLocationLatLongObject.TryGetValue("lat", out lastLocationLatValue);
-                                //try get longitude
-                                IJsonValue lastLocationLongValue;
-                                lastLocationLatLongObject.TryGetValue("long", out lastLocationLongValue);
-
-                                legObject.SetArrivalPosition(lastLocationLatValue.GetNumber(), lastLocationLongValue.GetNumber());
-                            }
-                        }
-                        catch { }
-                        legObject.AddFence();
-                        journey.AddLeg(legObject);
-                    }
-                    journeyCollection.Add(journey);
-                }
-                catch { }
             }
             return journeyCollection;
+        }
+
+        /// <summary>
+        /// deserialize 1 journey
+        /// </summary>
+        /// <param name="journeyJson"></param>
+        /// <returns></returns>
+        private static Journey DesOneJourney(IJsonValue journeyJson)
+        {
+            Journey journey = new Journey();
+            JsonObject itemObj = journeyJson.GetObject();
+            IJsonValue departureValue;
+            IJsonValue arrivalValue;
+            //try get arrival and departure time from highest level in json
+            try
+            {
+                itemObj.TryGetValue("departure", out departureValue);
+                journey.SetStartTime(departureValue.GetString());
+            }
+            catch { }
+            try
+            {
+                itemObj.TryGetValue("arrival", out arrivalValue);
+                journey.SetEndTime(arrivalValue.GetString());
+            }
+            catch { }
+
+            //try to get amount of changes
+            IJsonValue changesValues;
+            try
+            {
+                itemObj.TryGetValue("numberOfChanges", out changesValues);
+                journey.NumberOfChanges = (int)changesValues.GetNumber();
+            }
+            catch { }
+
+            //try to get legs from the route 
+
+            //get value legs:
+            IJsonValue legsValue;
+            itemObj.TryGetValue("legs", out legsValue);
+            JsonArray legsObjects = legsValue.GetArray();
+
+
+            //for each leg in the route
+            ///position = journeys>0>legs>0
+            foreach (IJsonValue leg in legsObjects)
+            {
+                try {
+                    Leg l = DesOneLeg(leg);
+                    journey.AddLeg(l);
+                }
+                catch (Exception ex)  {
+                    ex.GetType();
+                }
+            }
+            return journey;
+        }
+
+        /// <summary>
+        /// this methods deserialized one leg of a route
+        /// </summary>
+        /// <param name="leg"></param>
+        /// <returns>leg object</returns>
+        private static Leg DesOneLeg(IJsonValue leg)
+        {
+            Leg legObject = new Leg();
+            JsonObject legItemObj = leg.GetObject();
+            //get destination of the leg ("Maastricht")
+            IJsonValue legDestinationValue;
+            try
+            {
+                legItemObj.TryGetValue("destination", out legDestinationValue);
+                legObject.destination = legDestinationValue.GetString();
+            }
+            catch { }
+
+            //get name and type of leg
+            ///position = journeys>0>legs>0>mode
+            IJsonValue typemodeValue;
+            legItemObj.TryGetValue("mode", out typemodeValue);
+            JsonObject typemodeObject = typemodeValue.GetObject();
+            //try get type ("train")
+            IJsonValue modetype;
+            //try get name ("intercity")
+            IJsonValue modename;
+            try
+            {
+                typemodeObject.TryGetValue("name", out modename);
+                typemodeObject.TryGetValue("type", out modetype);
+
+                legObject.name = modename.GetString();
+                legObject.type = modetype.GetString();
+
+                if (legObject.type.Contains("walk"))
+                {
+                    IJsonValue durationValue;
+                    legItemObj.TryGetValue("duration", out durationValue);
+                    legObject.departureTime = "duration:";
+                    legObject.arrivalTime = durationValue.GetString();
+                }
+
+                if (legObject.type.Contains("bus"))
+                {
+                    IJsonValue lineNumberValue;
+                    legItemObj.TryGetValue("service", out lineNumberValue);
+                    legObject.name = lineNumberValue.GetString();
+                }
+            }
+            catch { }
+            ///position ..
+
+
+            //get operator of leg
+            ///position = journeys>0>legs>0>Operator
+            IJsonValue operatorlegvalue;
+            try
+            {
+                legItemObj.TryGetValue("operator", out operatorlegvalue);
+                JsonObject operatorlegObject = operatorlegvalue.GetObject();
+                //try get operator name ("NS")
+                IJsonValue legOperatorName;
+                typemodeObject.TryGetValue("name", out legOperatorName);
+                legObject.operatorName = legOperatorName.GetString();
+            }
+            catch { }
+            ///position ..
+
+            //try to get stops in the leg 
+            //get value stops:
+            ///position = journeys>0>legs>0>stops
+            ///
+            try { 
+            IJsonValue stopsValue;
+            legItemObj.TryGetValue("stops", out stopsValue);
+
+            //get amount of stops
+            JsonArray stopsObjects = stopsValue.GetArray();
+                legObject = DesStops(stopsObjects, legObject);
+            }
+            catch {
+                legObject.departureLocation = legObject.departurePosition.ToString();
+                legObject.arrivalLocation = legObject.arrivalPosition.ToString();
+                legObject.destination = String.Empty;
+                legObject.operatorName = "onbekend";
+            }
+            try
+            {
+                legObject.AddFence();
+            }
+            catch { }
+            
+            return legObject;
+        }
+
+        /// <summary>
+        /// desirialize data of stops
+        /// </summary>
+        /// <param name="stopsObjects"></param>
+        /// <param name="legObject"></param>
+        /// <returns></returns>
+        private static Leg DesStops(JsonArray stopsObjects, Leg legObject)
+        {
+            int amountOfStops = stopsObjects.Count + 1;
+            legObject.stops = amountOfStops;
+
+            if (amountOfStops >= 1)
+            {
+                ///position = journeys>0>legs>0>stops>0
+                IJsonValue firstValue = stopsObjects.First();
+                JsonObject firstObject = firstValue.GetObject();
+                //try get operator departure time
+                IJsonValue firstStoptime;
+                firstObject.TryGetValue("departure", out firstStoptime);
+                legObject.SetDepartureTime(firstStoptime.GetString());
+
+                //try get departure place of the leg
+                ///position = journeys>0>legs>0>stops>0>location
+                IJsonValue firstLocationValue;
+                firstObject.TryGetValue("location", out firstLocationValue);
+                JsonObject firstLocationObject = firstLocationValue.GetObject();
+
+                IJsonValue firstLocationIdValue;
+                firstLocationObject.TryGetValue("id", out firstLocationIdValue);
+                legObject.departureLocation = firstLocationIdValue.GetString();
+
+                //get coordinates of first stop
+                Tuple<double, double> firstCoordinates = DesPositionFromStop(firstLocationObject);
+                legObject.SetDeparturePosition(firstCoordinates.Item1, firstCoordinates.Item2);
+
+                ///position = journeys>0>legs>0>stops>last>
+                //try get arrival time
+                IJsonValue lastValue = stopsObjects.Last();
+                JsonObject lastObject = lastValue.GetObject();
+
+                IJsonValue lastStopTime;
+                lastObject.TryGetValue("arrival", out lastStopTime);
+                legObject.SetArrivalTime(lastStopTime.GetString());
+
+                //try get destination place of the leg
+                ///position = journeys>0>legs>0>stops>last>location
+                IJsonValue lastLocationValue;
+                lastObject.TryGetValue("location", out lastLocationValue);
+                JsonObject lastLocationObject = lastLocationValue.GetObject();
+
+                IJsonValue lastLocationIdValue;
+                lastLocationObject.TryGetValue("id", out lastLocationIdValue);
+                legObject.arrivalLocation = lastLocationIdValue.GetString();
+
+                //get coordinates of latest stop
+                Tuple<double,double> lastCoordinates = DesPositionFromStop(lastLocationObject);
+                legObject.SetArrivalPosition(lastCoordinates.Item1, lastCoordinates.Item2);
+            }
+            return legObject;
+        }
+
+        private static Tuple<double,double> DesPositionFromStop(JsonObject json)
+        {
+            //try get latlong
+            ///position journeys>0>legs>0>stops>n>location>latLong
+            IJsonValue LocationLatLongValue;
+            json.TryGetValue("latLong", out LocationLatLongValue);
+            JsonObject LocationLatLongObject = LocationLatLongValue.GetObject();
+
+            //try get latitude
+            IJsonValue LocationLatValue;
+            LocationLatLongObject.TryGetValue("lat", out LocationLatValue);
+            //try get longitude
+            IJsonValue LocationLongValue;
+            LocationLatLongObject.TryGetValue("long", out LocationLongValue);
+
+            Tuple<double, double> tuple = new Tuple<double, double>(LocationLatValue.GetNumber(), LocationLongValue.GetNumber());
+
+            return tuple;
         }
     }
 }

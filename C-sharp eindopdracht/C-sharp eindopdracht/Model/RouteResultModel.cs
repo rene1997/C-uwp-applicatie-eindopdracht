@@ -58,7 +58,9 @@ namespace C_sharp_eindopdracht.Model
                 // Get my current location.
                 Geolocator myGeolocator = new Geolocator();
                 Geoposition myGeoposition = await myGeolocator.GetGeopositionAsync();
-                Location l = await Api.Setup.RequestLocationFromCoordinate($"{myGeoposition.Coordinate.Point.Position.Latitude},{myGeoposition.Coordinate.Point.Position.Longitude}");
+                string lat = myGeoposition.Coordinate.Point.Position.Latitude.ToString();
+                lat.Replace(',', '.');
+                Location l = await Api.Setup.RequestLocationFromCoordinate($"{myGeoposition.Coordinate.Point.Position.Latitude.ToString().Replace(',', '.')},{myGeoposition.Coordinate.Point.Position.Longitude.ToString().Replace(',','.')}");
                 if (fromId.Equals(c))
                 {
                     fromId = l.id;
