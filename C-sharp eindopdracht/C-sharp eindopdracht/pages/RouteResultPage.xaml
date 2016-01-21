@@ -24,8 +24,7 @@
                 <Grid/>
             </CommandBar.Content>
             <AppBarButton Icon="Home" Click="GoHomeButton" Label="terug"/>
-            <AppBarButton Icon="Help" Click="ShowHelpButton"  Label="zoek"/>
-            
+
         </CommandBar>
 
     </Page.BottomAppBar>

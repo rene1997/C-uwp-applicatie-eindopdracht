@@ -43,6 +43,7 @@ namespace C_sharp_eindopdracht.pages
             catch (Exception) {
                 locationData = new LocationPageData(Soort.from);
             }
+            
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)

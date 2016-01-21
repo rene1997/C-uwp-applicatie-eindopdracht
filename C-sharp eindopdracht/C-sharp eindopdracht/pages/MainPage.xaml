@@ -28,8 +28,6 @@
                 <Grid/>
 
             </CommandBar.Content>
-            <AppBarButton Icon="Map" Label="kaart" Click="AppBarMapButton_Click"/>
-            <!--<AppBarButton Icon="Setting" Click="AppBarSettingButton_Click" Label="instellingen" />-->
             <AppBarButton Icon="GoToStart" Label="afsluiten" Click="AppBarExitButton_Click"/>
         </CommandBar>
     </Page.BottomAppBar>

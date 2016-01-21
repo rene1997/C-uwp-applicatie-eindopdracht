@@ -24,7 +24,6 @@
                 <Grid/>
             </CommandBar.Content>
             <AppBarButton Icon="Home" Click="AppBarButton_Click" Label="terug"/>
-            <AppBarButton Icon="Send" Click="AppBarButton_Click_2" Label="zoek"/>
             <CommandBar.SecondaryCommands>
                 <AppBarButton Icon="PostUpdate" Label="for testing " Click="AppBarButton_Click_1"></AppBarButton>
             </CommandBar.SecondaryCommands>
@@ -36,7 +35,7 @@
             <ImageBrush Stretch="Fill"/>
         </RelativePanel.Background>
 
-        <TextBox x:Name="InputField" Grid.Row="0" TextChanged="InputField_TextChanged" HorizontalAlignment="Stretch" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" Margin="0,-2,0,2"></TextBox>
+        <TextBox x:Name="InputField" Grid.Row="0" TextChanged="InputField_TextChanged" HorizontalAlignment="Stretch" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" Margin="0,-2,0,2" UseSystemFocusVisuals="True"></TextBox>
 
         <ScrollViewer x:Name="listView" Margin="0,40,0,0" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
             <Grid>
