@@ -217,6 +217,13 @@ namespace C_sharp_eindopdracht.Api
 
                             legObject.name = modename.GetString();
                             legObject.type = modetype.GetString();
+
+                            if (legObject.type.Contains("bus"))
+                            {
+                                IJsonValue lineNumberValue;
+                                legItemObj.TryGetValue("service", out lineNumberValue);
+                                legObject.name = lineNumberValue.GetString();
+                            }
                         } catch { }
                         ///position ..
                         
