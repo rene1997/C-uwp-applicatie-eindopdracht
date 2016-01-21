@@ -33,6 +33,13 @@ namespace C_sharp_eindopdracht.Model
         public void AddLeg(Leg leg)
         {
             legs.Add(leg);
+            int a = legs.IndexOf(leg);
+            if (a >= 1){
+                if (legs[a - 1].type.Equals("walk"))
+                {
+                    legs[a - 1].name = "loop naar " + leg.departureLocation;
+                }
+            }
         }
     }
 
