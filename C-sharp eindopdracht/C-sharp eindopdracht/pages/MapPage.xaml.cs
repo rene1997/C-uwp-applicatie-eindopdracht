@@ -44,8 +44,6 @@ namespace C_sharp_eindopdracht.pages
 
             timer.Interval = TimeSpan.FromSeconds(2);
             timer.Tick += Timer_Tick;
-
-            Setpushpin();
         }
 
         private void Locator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
@@ -70,6 +68,7 @@ namespace C_sharp_eindopdracht.pages
             catch { }
 
             GeofenceMonitor.Current.GeofenceStateChanged += Current_GeofenceStateChanged;
+            Setpushpin();
             timer.Start();
         }
 

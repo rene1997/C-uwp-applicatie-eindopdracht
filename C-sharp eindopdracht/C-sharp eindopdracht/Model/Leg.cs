@@ -65,7 +65,7 @@ namespace C_sharp_eindopdracht.Model
             Geocircle circle = new Geocircle(arrivalPosition, 25);
             MonitoredGeofenceStates masking = 0;
             masking |= MonitoredGeofenceStates.Entered;
-            var geofence1 = new Geofence(destination, circle, masking, true, TimeSpan.FromSeconds(1));
+            var geofence1 = new Geofence(destination.Substring(0, 60), circle, masking, true, TimeSpan.FromSeconds(1));
 
             // Replace if it already exists for this maneuver key
             var oldFence = GeofenceMonitor.Current.Geofences.Where(p => p.Id == destination).FirstOrDefault();
