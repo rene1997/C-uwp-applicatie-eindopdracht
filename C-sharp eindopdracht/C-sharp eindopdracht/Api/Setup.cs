@@ -280,8 +280,12 @@ namespace C_sharp_eindopdracht.Api
                                 //try get longitude
                                 IJsonValue firstLocationLongValue;
                                 firstLocationLatLongObject.TryGetValue("long", out firstLocationLongValue);
-
-                                legObject.SetDeparturePosition(firstLocationLatValue.GetString(), firstLocationLongValue.GetString());
+                                try
+                                {
+                                    legObject.SetDeparturePosition(firstLocationLatValue.GetNumber(), firstLocationLongValue.GetNumber());
+                                }
+                                catch(Exception ex) {
+                                }
 
                                 ///position = journeys>0>legs>0>stops>last>
                                 //try get arrival time
@@ -315,7 +319,7 @@ namespace C_sharp_eindopdracht.Api
                                 IJsonValue lastLocationLongValue;
                                 lastLocationLatLongObject.TryGetValue("long", out lastLocationLongValue);
 
-                                legObject.SetArrivalPosition(lastLocationLatValue.GetString(), lastLocationLongValue.GetString());
+                                legObject.SetArrivalPosition(lastLocationLatValue.GetNumber(), lastLocationLongValue.GetNumber());
                             }
                         }
                         catch { }

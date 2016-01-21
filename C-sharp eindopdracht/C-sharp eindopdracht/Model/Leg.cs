@@ -23,21 +23,21 @@ namespace C_sharp_eindopdracht.Model
         public BasicGeoposition arrivalPosition { get; set; }
         public Geofence Fence_a;        //fence voor arrival. departure hoeft niet, anders krijg je duplicaten of overliggende geofences
 
-        public void SetDeparturePosition(string lat, string lon)
+        public void SetDeparturePosition(double lat, double lon)
         {
             try
             {
-                departurePosition = new BasicGeoposition() { Latitude = Double.Parse(lat), Longitude = Double.Parse(lon) };
+                departurePosition = new BasicGeoposition() { Latitude = lat, Longitude = lon };
             }
             catch { }
             
         }
 
-        public void SetArrivalPosition(string lat, string lon)
+        public void SetArrivalPosition(double lat, double lon)
         {
             try
             {
-                arrivalPosition = new BasicGeoposition() { Latitude = Double.Parse(lat), Longitude = Double.Parse(lon) };
+                arrivalPosition = new BasicGeoposition() { Latitude = lat, Longitude = lon };
             }
             catch { }
         }
