@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    
+
     <Page.Resources>
         <Style TargetType="Button">
             <Setter Property="FontFamily" Value="Comic Sans MS"/>
@@ -17,11 +17,11 @@
             <Setter Property="FontSize" Value="14"/>
         </Style>
     </Page.Resources>
-    
+
     <Page.Background>
         <ImageBrush Stretch="UniformToFill" ImageSource="ms-appx:///Assets/achtergrond.png" Opacity="0.8"/>
     </Page.Background>
-    
+
     <Page.BottomAppBar>
         <CommandBar>
             <CommandBar.Content>
@@ -31,12 +31,12 @@
             <AppBarButton Icon="GoToStart" Label="afsluiten" Click="AppBarExitButton_Click"/>
         </CommandBar>
     </Page.BottomAppBar>
-    
+
     <RelativePanel>
         <RelativePanel.Background>
             <ImageBrush Stretch="Fill"/>
         </RelativePanel.Background>
-        
+
         <TextBlock x:Name="textBlock"  Text="Openbaar Vervoer" HorizontalAlignment="Left" RelativePanel.AlignHorizontalCenterWithPanel="True" FontSize="40" FontWeight="Bold" FontStyle="Italic" Foreground="{ThemeResource SystemControlBackgroundAccentBrush}" Margin="5" />
         <ScrollViewer x:Name="listView" Margin="0,75,0,0" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
             <Grid>

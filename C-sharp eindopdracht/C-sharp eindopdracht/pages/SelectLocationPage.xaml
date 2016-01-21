@@ -24,9 +24,6 @@
                 <Grid/>
             </CommandBar.Content>
             <AppBarButton Icon="Home" Click="AppBarButton_Click" Label="terug"/>
-            <CommandBar.SecondaryCommands>
-                <AppBarButton Icon="PostUpdate" Label="for testing " Click="AppBarButton_Click_1"></AppBarButton>
-            </CommandBar.SecondaryCommands>
         </CommandBar>
         
     </Page.BottomAppBar>
