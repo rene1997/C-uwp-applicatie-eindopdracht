@@ -173,5 +173,10 @@ namespace C_sharp_eindopdracht.pages
             }
             //else toevoegen dat je er bent
         }
+
+        private void AppBarButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            Frame.GoBack();
+        }
     }
 }

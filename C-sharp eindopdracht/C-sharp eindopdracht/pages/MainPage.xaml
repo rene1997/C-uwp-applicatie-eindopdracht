@@ -39,7 +39,7 @@
             <ImageBrush Stretch="Fill"/>
         </RelativePanel.Background>
         
-        <TextBlock x:Name="textBlock"  Text="Openbaar Vervoer" HorizontalAlignment="Stretch" RelativePanel.AlignHorizontalCenterWithPanel="True" FontSize="40" FontWeight="Bold" FontStyle="Italic" Foreground="{ThemeResource SystemControlBackgroundAccentBrush}" Margin="5" />
+        <TextBlock x:Name="textBlock"  Text="Openbaar Vervoer" HorizontalAlignment="Left" RelativePanel.AlignHorizontalCenterWithPanel="True" FontSize="40" FontWeight="Bold" FontStyle="Italic" Foreground="{ThemeResource SystemControlBackgroundAccentBrush}" Margin="5" />
         <ScrollViewer x:Name="listView" Margin="0,75,0,0" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWithPanel="True" >
             <Grid>
                 <Grid.RowDefinitions>

@@ -301,8 +301,8 @@ namespace C_sharp_eindopdracht.Api
                 legObject = DesStops(stopsObjects, legObject);
             }
             catch {
-                legObject.departureLocation = legObject.departurePosition.ToString();
-                legObject.arrivalLocation = legObject.arrivalPosition.ToString();
+                legObject.departureLocation = string.Empty;
+                legObject.arrivalLocation = string.Empty;
                 legObject.destination = String.Empty;
                 legObject.operatorName = "onbekend";
             }
@@ -321,7 +321,7 @@ namespace C_sharp_eindopdracht.Api
             {
                 IJsonValue durationValue;
                 legItemObj.TryGetValue("duration", out durationValue);
-                leg.departureTime = "duration:";
+                leg.departureTime = "duur:";
                 leg.arrivalTime = durationValue.GetString();
 
                 IJsonValue stopsValue;
@@ -341,7 +341,7 @@ namespace C_sharp_eindopdracht.Api
                     leg.SetDeparturePosition(locationPositions.Item1, locationPositions.Item2);
 
                     //get position of last stop
-                    IJsonValue lastStopValue = stopsObjects.First();
+                    IJsonValue lastStopValue = stopsObjects.Last();
                     JsonObject lastStop = lastStopValue.GetObject();
 
                     IJsonValue lastlocationValue;

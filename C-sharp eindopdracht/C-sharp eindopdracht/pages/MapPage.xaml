@@ -21,7 +21,8 @@
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Icon="Home" Click="AppBarButton_Click" Label="terug"/>
+            <AppBarButton Icon="Back" Click="AppBarButton_Click_1" Label="terug"/>
+            <AppBarButton Icon="Home" Click="AppBarButton_Click" Label="home"/>
         </CommandBar>
     </Page.BottomAppBar>
     <Grid Background="Transparent">
