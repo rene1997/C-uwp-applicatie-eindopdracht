@@ -106,8 +106,7 @@ namespace C_sharp_eindopdracht.pages
                         {
                             var route = await Getroute(l);
                             MapRouteView path = new MapRouteView(route.Route);
-                            path.RouteColor = Colors.AliceBlue;
-                            MapView.Routes.Add(path);
+                            DrawRoute(path.Route);
                         }
                     }
                     catch  { }
@@ -118,10 +117,10 @@ namespace C_sharp_eindopdracht.pages
 
         private void Setpushpin()
         {
-            MapIcon icon = new MapIcon();
+            /*MapIcon icon = new MapIcon();
             icon.Location = new Geopoint(model.publicLocations.Last().arrivalPosition);
             icon.NormalizedAnchorPoint = new Point(0.5, 0.5);
-            MapView.MapElements.Add(icon);
+            MapView.MapElements.Add(icon);*/
         }
 
         private async Task<MapRouteFinderResult> GetrouteWithUser()
@@ -178,5 +177,27 @@ namespace C_sharp_eindopdracht.pages
         {
             Frame.GoBack();
         }
+
+        private void DrawRoute(MapRoute route)
+        {
+            //Draw a semi transparent fat green line
+            var color = Colors.Blue;
+            color.A = 150;
+            //MapView.MapElements.Clear();
+            var line = new MapPolyline
+            {
+
+                StrokeThickness = 10,
+                StrokeColor = color,
+                StrokeDashed = false,
+                ZIndex = 5
+            };
+
+            // Route has a Path containing all points to draw the route
+            line.Path = new Geopath(route.Path.Positions);
+
+            MapView.MapElements.Add(line);
+        }
+
     }
 }
