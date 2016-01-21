@@ -26,7 +26,7 @@ namespace C_sharp_eindopdracht.Model
         public void SetLocations(List<Journey> journeys)
         {
             _privateJourneys.Clear();
-            foreach(Journey j in journeys)
+            foreach (Journey j in journeys)
             {
                 AddJourney(j);
             }
@@ -39,14 +39,21 @@ namespace C_sharp_eindopdracht.Model
 
         public async void Start()
         {
-            _privateJourneys.Clear();
-            AddJourney(new Journey() { StartTime = "aan het laden..." });
-            string s = await GetJourneys(locationsData.fromLocation.id, locationsData.toLocation.id, locationsData.datetime);
-            _privateJourneys.Clear();
-            ObservableCollection<Journey> journeys = Api.Setup.DesJourney(s);
-            foreach(Journey j in journeys)
+            try
             {
-                AddJourney(j);
+                _privateJourneys.Clear();
+                AddJourney(new Journey() { StartTime = "aan het laden..." });
+                string s = await GetJourneys(locationsData.fromLocation.id, locationsData.toLocation.id, locationsData.datetime);
+                _privateJourneys.Clear();
+                ObservableCollection<Journey> journeys = Api.Setup.DesJourney(s);
+                foreach (Journey j in journeys)
+                {
+                    AddJourney(j);
+                }
+            }
+            catch
+            {
+                page.toMainPage();
             }
         }
 
@@ -60,7 +67,7 @@ namespace C_sharp_eindopdracht.Model
                 Geoposition myGeoposition = await myGeolocator.GetGeopositionAsync();
                 string lat = myGeoposition.Coordinate.Point.Position.Latitude.ToString();
                 lat.Replace(',', '.');
-                Location l = await Api.Setup.RequestLocationFromCoordinate($"{myGeoposition.Coordinate.Point.Position.Latitude.ToString().Replace(',', '.')},{myGeoposition.Coordinate.Point.Position.Longitude.ToString().Replace(',','.')}");
+                Location l = await Api.Setup.RequestLocationFromCoordinate($"{myGeoposition.Coordinate.Point.Position.Latitude.ToString().Replace(',', '.')},{myGeoposition.Coordinate.Point.Position.Longitude.ToString().Replace(',', '.')}");
                 if (fromId.Equals(c))
                 {
                     fromId = l.id;
@@ -71,9 +78,12 @@ namespace C_sharp_eindopdracht.Model
                 }
             }
             string answer;
-                             
-            answer =  await Api.Setup.RequestJourneys(fromId, toId, datetime, locationsData.isDeparture);
-            Debug.WriteLine(answer);
+            answer = await Api.Setup.RequestJourneys(fromId, toId, datetime, locationsData.isDeparture);
+            if (answer.Equals(String.Empty))
+            {
+                page.toMainPage();
+            }
+            //Debug.WriteLine(answer);
             return answer;
         }
     }

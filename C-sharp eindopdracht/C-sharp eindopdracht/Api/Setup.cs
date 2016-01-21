@@ -55,11 +55,10 @@ namespace C_sharp_eindopdracht.Api
                 if (!response.IsSuccessStatusCode || (response.StatusCode == HttpStatusCode.RequestTimeout))
                 {
                     var dialog = new Windows.UI.Popups.MessageDialog("");
-                    dialog.Content = "De api van 9292.nl is offline, of uw internet staat uit.";
+                    dialog.Content = "Er is iets misgegaan. Dit kan komen doordat er geen verbinding kan worden gemaakt met de 9292 api, of omdat er geen route is tussen de gekozen punten.";
                     dialog.Commands.Add(new Windows.UI.Popups.UICommand("Oke") { Id = 0 });
                     await dialog.ShowAsync();
-                    CoreApplication.Exit();
-
+                    
                     return string.Empty;
                 }
 

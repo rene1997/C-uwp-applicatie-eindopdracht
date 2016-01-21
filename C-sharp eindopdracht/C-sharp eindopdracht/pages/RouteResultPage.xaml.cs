@@ -61,5 +61,10 @@ namespace C_sharp_eindopdracht.pages
             Journey l = (Journey)e.ClickedItem;
             Frame.Navigate(typeof(JourneyPage), l);
         }
+
+        public void toMainPage()
+        {
+            Frame.Navigate(typeof(MainPage));
+        }
     }
 }
