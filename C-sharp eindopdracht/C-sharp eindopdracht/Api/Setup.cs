@@ -257,10 +257,9 @@ namespace C_sharp_eindopdracht.Api
 
                 if (legObject.type.Contains("walk"))
                 {
-                    IJsonValue durationValue;
-                    legItemObj.TryGetValue("duration", out durationValue);
-                    legObject.departureTime = "duration:";
-                    legObject.arrivalTime = durationValue.GetString();
+                    
+                    legObject = DesWalkLeg(legItemObj, legObject);
+
                 }
 
                 if (legObject.type.Contains("bus"))
@@ -314,6 +313,68 @@ namespace C_sharp_eindopdracht.Api
             catch { }
             
             return legObject;
+        }
+
+        private static Leg DesWalkLeg(JsonObject legItemObj, Leg leg)
+        {
+            try
+            {
+                IJsonValue durationValue;
+                legItemObj.TryGetValue("duration", out durationValue);
+                leg.departureTime = "duration:";
+                leg.arrivalTime = durationValue.GetString();
+
+                IJsonValue stopsValue;
+                legItemObj.TryGetValue("stops", out stopsValue);
+                JsonArray stopsObjects = stopsValue.GetArray();
+
+                //get first stop
+                if(stopsObjects.Count > 0)
+                {
+                    //get position of first stop
+                    IJsonValue firstStopValue = stopsObjects.First();
+                    JsonObject firstStop = firstStopValue.GetObject();
+                    IJsonValue firstlocationValue;
+                    firstStop.TryGetValue("location", out firstlocationValue);
+                    JsonObject firstlocationObject = firstlocationValue.GetObject();
+                    Tuple<double, double> locationPositions = DesPositionFromStop(firstlocationObject);
+                    leg.SetDeparturePosition(locationPositions.Item1, locationPositions.Item2);
+
+                    //get position of last stop
+                    IJsonValue lastStopValue = stopsObjects.First();
+                    JsonObject lastStop = lastStopValue.GetObject();
+
+                    IJsonValue lastlocationValue;
+                    lastStop.TryGetValue("location", out lastlocationValue);
+                    JsonObject lastlocationObject = lastlocationValue.GetObject();
+                    Tuple<double, double> lastlocationPositions = DesPositionFromStop(lastlocationObject);
+                    leg.SetArrivalPosition(lastlocationPositions.Item1, locationPositions.Item2);
+
+
+                }
+
+                /*
+                IJsonValue testValue;
+                j.TryGetValue("arrival", out testValue);
+
+                IJsonValue locationValue;
+                j.TryGetValue("location", out locationValue);
+                JsonObject locationObject = locationValue.GetObject();
+                Tuple<double, double> locationPositions = DesPositionFromStop(stopsObjects.First().GetObject());
+                if (stopsObjects.First() == j)
+                {
+                    leg.SetDeparturePosition(locationPositions.Item1, locationPositions.Item2);
+                }
+                else if (stopsObjects.Last() == j)
+                {
+                    leg.SetArrivalPosition(locationPositions.Item1, locationPositions.Item2);
+                }*/
+
+
+            }
+            catch { }
+            
+            return leg;
         }
 
         /// <summary>

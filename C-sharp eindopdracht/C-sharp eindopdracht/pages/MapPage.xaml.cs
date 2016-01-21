@@ -98,13 +98,18 @@ namespace C_sharp_eindopdracht.pages
                 MapView.Routes.Clear();
                 foreach (Leg l in model.publicLocations)
                 {
-                    if (l.type.Equals("walk"))
+                    try
                     {
-                        var route = await Getroute(l);
-                        MapRouteView path = new MapRouteView(route.Route);
-                        path.RouteColor = Colors.AliceBlue;
-                        MapView.Routes.Add(path);
+                        if (l.type.Equals("walk"))
+                        {
+                            var route = await Getroute(l);
+                            MapRouteView path = new MapRouteView(route.Route);
+                            path.RouteColor = Colors.AliceBlue;
+                            MapView.Routes.Add(path);
+                        }
                     }
+                    catch  { }
+                    
                 }
             }
         }
