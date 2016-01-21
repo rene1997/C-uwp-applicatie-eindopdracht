@@ -15,6 +15,10 @@
         </Style>
     </Page.Resources>
 
+    <Page.Background>
+        <ImageBrush Stretch="UniformToFill" ImageSource="ms-appx:///Assets/achtergrond.png" Opacity="0.8"/>
+    </Page.Background>
+
     <Page.BottomAppBar>
         <CommandBar>
             <AppBarButton Icon="Home" Click="AppBarButton_Click" Label="terug"/>
@@ -28,7 +32,7 @@
             </Grid.RowDefinitions>
             <ListView  Name="Legs"
                           ItemsSource="{x:Bind model.publicLocations}"
-                          Grid.Row="0">
+                          Grid.Row="0" >
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="local:Leg">
                         <Grid HorizontalAlignment="Stretch">
