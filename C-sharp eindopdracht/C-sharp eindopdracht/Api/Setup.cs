@@ -319,6 +319,7 @@ namespace C_sharp_eindopdracht.Api
                             }
                         }
                         catch { }
+                        legObject.AddFence();
                         journey.AddLeg(legObject);
                     }
                     journeyCollection.Add(journey);
