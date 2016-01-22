@@ -9,7 +9,7 @@ namespace C_sharp_eindopdracht.Model
 {
     public class MapPageModel
     {
-        private ObservableCollection<Leg> _privateLocations = new ObservableCollection<Leg>();
+        public ObservableCollection<Leg> _privateLocations = new ObservableCollection<Leg>();
         public ObservableCollection<Leg> publicLocations { get { return this._privateLocations; }}
 
         public MapPageModel()

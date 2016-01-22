@@ -167,9 +167,8 @@ namespace C_sharp_eindopdracht.pages
         {
             if (model.publicLocations.Count() > 1)
             {
-                model.publicLocations.RemoveAt(0);
+                model._privateLocations.RemoveAt(0);
             }
-            //else toevoegen dat je er bent
         }
 
         private void AppBarButton_Click_1(object sender, RoutedEventArgs e)
